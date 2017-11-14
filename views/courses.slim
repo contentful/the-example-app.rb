@@ -1,0 +1,21 @@
+.layout-no-sidebar
+  == render_with_globals :_breadcrumb, locals: { breadcrumbs: breadcrumbs }
+.layout-sidebar
+  section.layout-sidebar__sidebar
+    .layout-sidebar__sidebar-header
+      h2.layout-sidebar__sidebar-title #{I18n.translate('categoriesLabel', current_locale.code)}
+    .layout-sidebar__sidebar-content
+      .sidebar-menu
+        ul.sidebar-menu__list
+          li.sidebar-menu__item
+            a.sidebar-menu__link(href="/courses#{query_string}" class=(current_path.end_with?('/courses') ? 'active' : '')) #{I18n.translate('allCoursesLabel', current_locale.code)}
+          - categories.each do |category|
+            li.sidebar-menu__item
+              a.sidebar-menu__link(href="/courses/categories/#{category.slug}#{query_string}" class=(current_path.end_with?(category.slug) ? 'active' : '')) #{category.title}
+  section.layout-sidebar__content
+    .courses
+      h1= title
+      .grid-list
+        - courses.each do |course|
+          .grid-list__item
+            == render_with_globals :_course_card, locals: {course: course}

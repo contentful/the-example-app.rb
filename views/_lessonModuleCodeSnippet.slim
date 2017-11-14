@@ -1,0 +1,58 @@
+.lesson-module.lesson-module-code
+  .lesson-module-code__header
+    - if mod.curl
+      a.lesson-module-code__trigger(data-target="#{mod.id}-curl") cURL
+    - if mod.dot_net
+      a.lesson-module-code__trigger(data-target="#{mod.id}-dotnet") .NET
+    - if mod.javascript
+      a.lesson-module-code__trigger(data-target="#{mod.id}-javascript") JavaScript
+    - if mod.java
+      a.lesson-module-code__trigger(data-target="#{mod.id}-java") Java
+    - if mod.java_android
+      a.lesson-module-code__trigger(data-target="#{mod.id}-android") Android
+    - if mod.php
+      a.lesson-module-code__trigger(data-target="#{mod.id}-php") PHP
+    - if mod.python
+      a.lesson-module-code__trigger(data-target="#{mod.id}-python") Python
+    - if mod.ruby
+      a.lesson-module-code__trigger.lesson-module-code__trigger--active(data-target="#{mod.id}-ruby") Ruby
+    - if mod.swift
+      a.lesson-module-code__trigger(data-target="#{mod.id}-swift") Swift
+
+  .lesson-module-code__code-area
+    - if mod.curl
+      .lesson-module-code__code(id="#{mod.id}-curl")
+        pre
+          code.shell= mod.curl
+    - if mod.dot_net
+      .lesson-module-code__code(id="#{mod.id}-dotnet")
+        pre
+          code.csharp= mod.dot_net
+    - if mod.javascript
+      .lesson-module-code__code(id="#{mod.id}-javascript")
+        pre
+          code.javascript= mod.javascript
+    - if mod.java
+      .lesson-module-code__code(id="#{mod.id}-java")
+        pre
+          code.java= mod.java
+    - if mod.java_android
+      .lesson-module-code__code(id="#{mod.id}-android")
+        pre
+          code.java= mod.java_android
+    - if mod.php
+      .lesson-module-code__code(id="#{mod.id}-php")
+        pre
+          code.php= mod.php
+    - if mod.python
+      .lesson-module-code__code(id="#{mod.id}-python")
+        pre
+          code.python= mod.python
+    - if mod.ruby
+      .lesson-module-code__code.lesson-module-code__code--active(id="#{mod.id}-ruby")
+        pre
+          code.ruby= mod.ruby
+    - if mod.swift
+      .lesson-module-code__code(id="#{mod.id}-swift")
+        pre
+          code.swift= mod.swift

@@ -1,0 +1,38 @@
+.layout-no-sidebar
+  == render_with_globals :_breadcrumb, locals: { breadcrumbs: breadcrumbs }
+.layout-sidebar
+  section.layout-sidebar__sidebar
+    .layout-sidebar__sidebar-header
+      h2.layout-sidebar__sidebar-title #{I18n.translate('tableOfContentsLabel', current_locale.code)}
+    .layout-sidebar__sidebar-content
+      .table-of-contents
+        .table-of-contents__list
+          .table-of-contents__item
+            a.table-of-contents__link(href="/courses/#{course.slug}#{query_string}" class=(current_path.end_with?(course.slug) ? 'active' : '') class=(visited_lessons.include?(course.id) ? 'visited' : '')) #{I18n.translate('courseOverviewLabel', current_locale.code)}
+          - lessons.each do |l|
+            - if l.fields
+              .table-of-contents__item
+                a.table-of-contents__link(href="/courses/#{course.slug}/lessons/#{l.slug}#{query_string}" class=(current_path.end_with?(l.slug) ? 'active' : '') class=(visited_lessons.include?(l.id) ? 'visited' : '')) #{l.title}
+  section.layout-sidebar__content
+    - if lesson
+      == render_with_globals :_lesson, locals: { lesson: lesson, course: course, next_lesson: next_lesson, breadcrumbs: breadcrumbs }
+    - else
+      .course
+        h1.course__title= course.title
+        /*+editorialFeatures(course)*/
+        .course__overview
+          h3.course__overview-title #{I18n.translate('overviewLabel', current_locale.code)}
+          - if course.duration
+            .course__overview-item
+              svg.course__overview-icon
+                use(xlink:href='/icons/icons.svg#duration')
+              .course__overview-value #{I18n.translate('durationLabel', current_locale.code)}: #{course.duration} #{I18n.translate('minutesLabel', current_locale.code)}
+          - if course.skill_level
+            .course__overview-item
+              svg.course__overview-icon
+                use(xlink:href='/icons/icons.svg#skill-level')
+              .course__overview-value #{I18n.translate('skillLevelLabel', current_locale.code)}: #{I18n.translate("#{course.skill_level}Label", current_locale.code)}
+          .course__overview-cta-wrapper
+            a.course__overview-cta.cta(href="/courses/#{course.slug}/lessons/#{course.lessons[0].slug}#{query_string}") #{I18n.translate('startCourseLabel', current_locale.code)}
+        .course__description
+          == Kramdown::Document.new(course.description).to_html

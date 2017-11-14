@@ -1,0 +1,8 @@
+.lesson-module.lesson-module-image
+  - if mod.image && mod.image.file && mod.image.file.url
+    figure.lesson-module-image__figure
+      img.lesson-module-image__image(src=mod.image.file.url alt=mod.image.title)
+      - if mod.caption
+        figcaption.lesson-module-image__caption= mod.caption
+  - else
+    h3 #{I18n.translate('imageErrorTitle', current_locale.code)}

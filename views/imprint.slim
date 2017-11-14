@@ -1,0 +1,25 @@
+.layout-centered
+  == render_with_globals :_breadcrumb
+  h1= title
+  table
+    tbody
+      tr
+        th #{I18n.translate('companyLabel', current_locale.code)}:
+        td Contentful GmbH
+      tr
+        th #{I18n.translate('officeLabel', current_locale.code)}:
+        td
+          | Ritterstr. 12-14
+          br
+          |  10969 Berlin
+          br
+          |  #{I18n.translate('germanyLabel', current_locale.code)}
+      tr
+        th #{I18n.translate('registrationCourtLabel', current_locale.code)}:
+        td Berlin-Charlottenburg HRB 155607 B
+      tr
+        th #{I18n.translate('managingDirectorLabel', current_locale.code)}:
+        td Sascha Konietzke
+      tr
+        th #{I18n.translate('vatNumberLabel', current_locale.code)}:
+        td DE275148225

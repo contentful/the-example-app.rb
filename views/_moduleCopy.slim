@@ -1,0 +1,11 @@
+- style = mod.visual_style === 'Emphasized' ? `--emphasized` : ''
+.module
+  div(class="module-copy#{style}")
+    div(class="module-copy__first#{style}")
+      - if mod.headline
+        h1(class="module-copy__headline#{style}") #{mod.headline}
+      div(class="module-copy__copy#{style}") 
+        == Kramdown::Document.new(mod.copy).to_html
+    div(class="module-copy__second#{style}")
+      - if mod.cta_title && mod.cta_link
+        a.cta(class="module-copy__cta#{style}" href=mod.cta_link)= mod.cta_title

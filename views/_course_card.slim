@@ -1,0 +1,13 @@
+.course-card
+  .course-card__categories
+    - if course.categories
+      - course.categories.each do |category|
+        .course-card__category
+          a.course-card__category-link(href="/courses/categories/#{category.slug}#{query_string}") #{category.title}
+  h2.course-card__title
+    a(href="/courses/#{course.slug}#{query_string}")= course.title
+    /*if currentApi.id === 'cpa' && (course.draft || course.pendingChanges)*/
+      /*+entryState(course)*/
+  p.course-card__description= course.short_description
+  .course-card__link-wrapper
+    a.course-card__link(href="/courses/#{course.slug}#{query_string}") #{I18n.translate("viewCourseLabel", current_locale.code)}

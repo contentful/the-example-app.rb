@@ -1,0 +1,5 @@
+nav.breadcrumb
+  ul
+    - breadcrumbs.each do |item|
+      li
+        a(href="#{item[:url]}#{query_string}") #{item[:label]}
