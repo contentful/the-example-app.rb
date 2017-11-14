@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Task manager
+gem 'foreman'
+
 # Web framework
 gem 'sinatra'
 

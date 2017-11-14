@@ -40,7 +40,7 @@ bundle install
 To start the server, run the following
 
 ```bash
-rackup
+foreman start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and take a look around. 
@@ -72,11 +72,12 @@ CONTENTFUL_SPACE_ID=<SPACE_ID>
 CONTENTFUL_DELIVERY_TOKEN=<DELIVERY_ACCESS_TOKEN>
 CONTENTFUL_PREVIEW_TOKEN=<PREVIEW_ACCESS_TOKEN>
 SESSION_SECRET=someSecretTokenHere
+PORT=3000
 ```
 
 Step 7: To start the server, run the following
 ```bash
-rerun rackup
+rerun 'foreman start'
 ```
 Final Step:
 
