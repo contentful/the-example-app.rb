@@ -18,7 +18,7 @@
         .status-block__title #{I18n.translate('errorOcurredTitleLabel', current_locale.code)}
         .status-block__message #{I18n.translate('errorOcurredMessageLabel', current_locale.code)}
 
-  - if space && has_errors
+  - if space && !has_errors
     .status-block.status-block--info
       svg.status-block__icon.status-block__icon--info
         use(xlink:href='/icons/icons.svg#info')
