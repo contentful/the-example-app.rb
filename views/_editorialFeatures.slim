@@ -1,0 +1,15 @@
+- if editorial_features
+  .editorial-features
+    - if show_entry_state?(entry)
+      .editorial-features__item
+        == render_with_globals :_entryState, locals: { entry: entry }
+    .editorial-features__item
+      a.editorial-features__text(
+        href="https://app.contentful.com/spaces/#{space_id}/entries/#{entry.id}"
+        target='_blank'
+        rel='noopener'
+      ) #{I18n.translate('editInTheWebAppLabel', current_locale.code)}
+      .editorial-features__hint-wrapper
+        svg.editorial-features__hint-icon
+          use(xlink:href='/icons/icons.svg#info')
+        .editorial-features__hint-message #{I18n.translate('editorialFeaturesHint', current_locale.code)}

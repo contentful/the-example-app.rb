@@ -5,9 +5,11 @@ require 'sinatra/base'
 require 'rack-livereload'
 require 'rack/ssl-enforcer'
 
+# Routes
+require './routes/index'
+require './routes/errors'
 require './routes/courses'
 require './routes/imprint'
-require './routes/index'
 require './routes/settings'
 
 # Helpers
@@ -20,6 +22,8 @@ class ExampleApp < Sinatra::Base
   # Global options
   set :public_folder, File.join(Dir.pwd, 'public')
   set :session_secret, ENV['SESSION_SECRET']
+  set :raise_errors, true
+  set :show_exceptions, :after_handler
 
   I18n.initialize_translations
 

@@ -1,0 +1,4 @@
+- if entry.draft
+  .pill.pill--draft #{I18n.translate('draftLabel', current_locale.code)}
+- if entry.pending_changes
+  .pill.pill--pending-changes #{I18n.translate('pendingChangesLabel', current_locale.code)}

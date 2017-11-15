@@ -19,7 +19,7 @@
     - else
       .course
         h1.course__title= course.title
-        /*+editorialFeatures(course)*/
+        == render_with_globals :_editorialFeatures, locals: { entry: course }
         .course__overview
           h3.course__overview-title #{I18n.translate('overviewLabel', current_locale.code)}
           - if course.duration

@@ -1,0 +1,24 @@
+.layout-centered
+  == render_with_globals :_breadcrumb
+  .error
+    h1 #{I18n.translate('somethingWentWrongLabel', current_locale.code)} (#{status})
+    h2 #{I18n.translate('tryLabel', current_locale.code)}:
+    ul
+      li #{I18n.translate('contentModelChangedErrorLabel', current_locale.code)}
+      li #{I18n.translate('draftOrPublishedErrorLabel', current_locale.code)}
+      li #{I18n.translate('localeContentErrorLabel', current_locale.code)}
+      li #{I18n.translate('verifyCredentialsErrorLabel', current_locale.code)}
+      - if environment != 'production' && stacktrace
+        li #{I18n.translate('stackTraceErrorLabel', current_locale.code)}
+    - if environment != 'production'
+      - if error.respond_to?(:response) || error.respond_to?(:message)
+        h2 #{I18n.translate('errorLabel', current_locale.code)}
+        pre.error__stack-trace
+          - if error.respond_to?(:message)
+              code.shell #{error.message}
+          - if error.respond_to?(:response)
+              code.shell #{JSON.pretty_generate(error.response.load_json)}
+      - if stacktrace
+        h2 #{I18n.translate('stackTraceLabel', current_locale.code)}
+        pre.error__stack-trace
+          code.shell #{stacktrace}

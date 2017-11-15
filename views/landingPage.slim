@@ -2,7 +2,7 @@
   .layout-centered
     == render_with_globals :_breadcrumb, locals: { breadcrumbs: breadcrumbs }
 .layout-centered
-  /*+editorialFeatures(landingPage)*/
+  == render_with_globals :_editorialFeatures, locals: { entry: landing_page }
 .modules-container
   - landing_page.content_modules.each do |mod|
     - case mod.content_type.id

@@ -1,6 +1,6 @@
 .lesson
   h1.lesson__title #{lesson.title}
-  /*+editorialFeatures(lesson)*/
+  == render_with_globals :_editorialFeatures, locals: { entry: lesson }
   .lesson__modules
     - lesson.modules.each do |mod|
       - if mod.content_type

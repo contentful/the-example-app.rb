@@ -1,12 +1,22 @@
 require 'sinatra/base'
 require './services/contentful'
 require './lib/breadcrumbs'
+require './lib/entry_state'
+require './routes/errors'
 
 module Routes
   class Base < Sinatra::Base
+    include Errors
+    include EntryState
+
     set :views, File.join(Dir.pwd, 'views')
 
     DEFAULT_API = 'cda'.freeze
+    DEFAULT_LOCALE = ::Contentful::Locale.new({
+      'code' => 'en-US',
+      'name' => 'US English',
+      'default' => true
+    })
 
     def contentful
       Services::Contentful.instance(
@@ -34,15 +44,15 @@ module Routes
     end
 
     def locale
-      @locale = locales.detect { |locale| locale.code == params['locale'] } || default_locale
+      @locale = locales.detect { |locale| locale.code == params['locale'] }
+    rescue ::Contentful::Error
+      DEFAULT_LOCALE
     end
 
     def locales
       @locales ||= contentful.space(api_id).locales
-    end
-
-    def default_locale
-      @default_locale ||= locales.detect { |locale| locale.default }
+    rescue ::Contentful::Error
+      [ DEFAULT_LOCALE ]
     end
 
     def raw_breadcrumbs
@@ -52,14 +62,22 @@ module Routes
     helpers do
       def render_with_globals(template, locals: {})
         globals = {
+          title: nil,
           current_locale: locale,
           current_api: current_api,
           current_path: request.path,
           query_string: request.query_string ? "?#{request.query_string}" : '',
-          breadcrumbs: raw_breadcrumbs
+          breadcrumbs: raw_breadcrumbs,
+          editorial_features: session[:editorial_features],
+          space_id: session[:space_id] || ENV['CONTENTFUL_SPACE_ID']
         }
 
         slim template, locals: globals.merge(locals)
+      end
+
+      def format_meta_title(title, locale)
+        return I18n.translate('defaultTitle', locale) unless title
+        "#{title.capitalize} - #{I18n.translate('defaultTitle', locale)}"
       end
     end
   end

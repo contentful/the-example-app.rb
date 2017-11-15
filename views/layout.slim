@@ -1,12 +1,12 @@
 doctype html
 html
   head
-    /*title= helpers.formatMetaTitle(title, current_locale.code)*/
+    title= format_meta_title(title, current_locale.code)
     link(rel='stylesheet', href='/stylesheets/style.css')
     meta(name='viewport' content='width=device-width, initial-scale=1')
     meta(name='description' content=I18n.translate('metaDescription', current_locale.code))
     meta(name='twitter:card' content=I18n.translate('metaTwitterCard', current_locale.code))
-    /*meta(property='og:title' content=helpers.formatMetaTitle(title, current_locale.code))*/
+    meta(property='og:title' content=format_meta_title(title, current_locale.code))
     meta(property='og:type' content='article')
     meta(property='og:url' content="http://contentful-example-app.herokuapp.com#{current_path}")
     meta(property='og:image' content='http://contentful-example-app.herokuapp.com/og-image.jpg')
