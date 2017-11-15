@@ -29,7 +29,7 @@ class ExampleApp < Sinatra::Base
 
   # Middleware
   use Rack::LiveReload
-  use Rack::SslEnforcer unless settings.development?
+  use Rack::SslEnforcer, :except_hosts => 'localhost'
 
   # Enable Sinatra session after SslEnforcer
   use Rack::Session::Cookie,
