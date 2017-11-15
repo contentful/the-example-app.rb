@@ -4,6 +4,7 @@ require './lib/breadcrumbs'
 require './lib/entry_state'
 require './routes/errors'
 
+# Base class for route middleware
 module Routes
   class Base < Sinatra::Base
     include Errors
@@ -13,12 +14,13 @@ module Routes
 
     DEFAULT_API = 'cda'.freeze
     DEFAULT_LOCALE_CODE = 'en-US'.freeze
-    DEFAULT_LOCALE = ::Contentful::Locale.new({
+    DEFAULT_LOCALE = ::Contentful::Locale.new(
       'code' => DEFAULT_LOCALE_CODE,
       'name' => 'U.S. English',
       'default' => true
-    })
+    )
 
+    # Wrapper for the Contentful service
     def contentful
       Services::Contentful.instance(
         session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
@@ -27,10 +29,12 @@ module Routes
       )
     end
 
+    # Gets the selected API
     def api_id
       @api_id = params['api'] || DEFAULT_API
     end
 
+    # Gets the current API data
     def current_api
       {
         cda: {
@@ -44,23 +48,27 @@ module Routes
       }[api_id.to_sym]
     end
 
+    # Gets the selected locale
     def locale
-      @locale = locales.detect { |locale| locale.code == (params['locale'] || DEFAULT_LOCALE_CODE) }
+      @locale ||= locales.detect { |locale| locale.code == (params['locale'] || DEFAULT_LOCALE_CODE) }
     rescue
       DEFAULT_LOCALE
     end
 
+    # Gets all the available locales for the given space
     def locales
       @locales ||= contentful.space(api_id).locales
     rescue ::Contentful::Error
-      [ DEFAULT_LOCALE ]
+      [DEFAULT_LOCALE]
     end
 
+    # Wrapper for the breadcrumb helper
     def raw_breadcrumbs
       Breadcrumbs.breadcrumbs(request, locale)
     end
 
     helpers do
+      # Wrapper for template rendering with all shared global state
       def render_with_globals(template, locals: {})
         globals = {
           title: nil,
@@ -78,6 +86,7 @@ module Routes
         slim template, locals: globals.merge(locals)
       end
 
+      # Helper for titles
       def format_meta_title(title, locale)
         return I18n.translate('defaultTitle', locale) unless title
         "#{title.capitalize} - #{I18n.translate('defaultTitle', locale)}"

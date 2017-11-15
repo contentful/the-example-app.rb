@@ -16,8 +16,8 @@ require './routes/settings'
 require './i18n/i18n'
 
 class ExampleApp < Sinatra::Base
-  TWO_DAYS_IN_SECONDS = 172800
-  DEFAULT_PORT = 3000
+  TWO_DAYS_IN_SECONDS = 172_800
+  DEFAULT_PORT = 3_000
 
   # Global options
   set :public_folder, File.join(Dir.pwd, 'public')
@@ -32,10 +32,11 @@ class ExampleApp < Sinatra::Base
   use Rack::SslEnforcer unless settings.development?
 
   # Enable Sinatra session after SslEnforcer
-  use Rack::Session::Cookie, :key => '_rack_session',
-                           :path => '/',
-                           :expire_after => TWO_DAYS_IN_SECONDS,
-                           :secret => settings.session_secret
+  use Rack::Session::Cookie,
+      key: '_rack_session',
+      path: '/',
+      expire_after: TWO_DAYS_IN_SECONDS,
+      secret: settings.session_secret
 
   # Routes
   use Routes::Index

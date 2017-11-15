@@ -13,7 +13,7 @@ module I18n
 
     begin
       Dir.foreach(locales_path) do |filename|
-        next if !filename.end_with?('.json')
+        next unless filename.end_with?('.json')
 
         locale_name = filename.split('/').last.gsub('.json', '')
 
@@ -21,17 +21,17 @@ module I18n
           @translations[locale_name] = JSON.load(f.read)
         end
       end
-    rescue Exception => e
+    rescue StandardError => e
       puts 'Error loading localization files.'
       puts e
     end
   end
 
   # Translate a static string
-  # @param symbol string Identifier for static text
-  # @param locale string Locale code
+  # @param symbol [String] Identifier for static text
+  # @param locale [String] Locale code
   #
-  # @returns string
+  # @return [String]
   def self.translate(symbol, locale = 'en-US')
     locale_dict = @translations[locale]
     return "Localization file for #{locale} is not available" unless locale_dict
@@ -43,11 +43,11 @@ module I18n
   end
 
   # Checks if string is translatable
-  # @param symbol string Identifier for static text
-  # @param locale string Locale code
+  # @param symbol [String] Identifier for static text
+  # @param locale [String] Locale code
   #
-  # @returns boolean
+  # @return [Boolean]
   def self.translation_avaliable(symbol, locale = 'en-US')
-    return !!(@translations[locale] || {})[symbol]
+    !!(@translations[locale] || {})[symbol]
   end
 end

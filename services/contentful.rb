@@ -6,12 +6,11 @@ module Services
       @instance ||= nil
 
       # We create new client instances only if credentials changed or client wasn't instantiated before
-      if (
-        @instance.nil? || (
+      if @instance.nil? || (
           @instance.space_id != space_id ||
           @instance.delivery_token != delivery_token ||
           @instance.preview_token != preview_token
-        ))
+        )
         @instance = new(space_id, delivery_token, preview_token)
       end
 
@@ -64,7 +63,7 @@ module Services
     def categories(api_id = 'cda', locale = 'en-US')
       client(api_id).entries(
         content_type: 'category',
-        locale: locale,
+        locale: locale
       )
     end
 

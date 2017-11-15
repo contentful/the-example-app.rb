@@ -103,6 +103,7 @@ module Routes
       end
     end
 
+    # Helper to get the next lesson with the current lesson slug
     def next_lesson(lessons, lesson_slug = nil)
       return lessons.first if lesson_slug.nil?
 

@@ -63,10 +63,11 @@ module Routes
       end
     end
 
+    # Helper for checking space/token combinations
     def validate_space_token_combination(errors, space_id, access_token, is_preview = false)
       Services::Contentful.create_client(space_id, access_token, is_preview)
     rescue ::Contentful::Error => e
-      token_field = is_preview ? :previewToken : :deliveryToken 
+      token_field = is_preview ? :previewToken : :deliveryToken
 
       case e.response.raw.code
       when 401
