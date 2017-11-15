@@ -18,6 +18,20 @@ module Services
       @instance
     end
 
+    def self.create_client(space_id, access_token, is_preview = false)
+      options = {
+        space: space_id,
+        access_token: access_token,
+        dynamic_entries: :auto,
+        raise_errors: true,
+        application_name: 'the-example-app.rb',
+        application_version: '1.0.0'
+      }
+      options[:api_url] = 'preview.contentful.com' if is_preview
+
+      ::Contentful::Client.new(options)
+    end
+
     attr_reader :space_id, :delivery_token, :preview_token
 
     def client(api_id)
@@ -74,22 +88,8 @@ module Services
       @delivery_token = delivery_token
       @preview_token = preview_token
 
-      @delivery_client = create_client(@space_id, @delivery_token)
-      @preview_client = create_client(@space_id, @preview_token, true)
-    end
-
-    def create_client(space_id, access_token, is_preview = false)
-      options = {
-        space: space_id,
-        access_token: access_token,
-        dynamic_entries: :auto,
-        raise_errors: true,
-        application_name: 'the-example-app.rb',
-        application_version: '1.0.0'
-      }
-      options[:api_url] = 'preview.contentful.com' if is_preview
-
-      ::Contentful::Client.new(options)
+      @delivery_client = self.class.create_client(@space_id, @delivery_token)
+      @preview_client = self.class.create_client(@space_id, @preview_token, true)
     end
   end
 end

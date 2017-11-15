@@ -41,4 +41,5 @@ class ExampleApp < Sinatra::Base
   use Routes::Index
   use Routes::Courses
   use Routes::Imprint
+  use Routes::Settings
 end

@@ -1,0 +1,60 @@
+.layout-centered-small
+  == render_with_globals :_breadcrumb
+  h1= title
+  p #{I18n.translate('settingsIntroLabel', current_locale.code)}
+
+  - if success
+    .status-block.status-block--success
+      svg.status-block__icon.status-block__icon--success
+        use(xlink:href='/icons/icons.svg#success')
+      .status-block__content
+        .status-block__title #{I18n.translate('changesSavedLabel', current_locale.code)}
+
+  - if has_errors
+    .status-block.status-block--error
+      svg.status-block__icon.status-block__icon--error
+        use(xlink:href='/icons/icons.svg#error')
+      .status-block__content
+        .status-block__title #{I18n.translate('errorOcurredTitleLabel', current_locale.code)}
+        .status-block__message #{I18n.translate('errorOcurredMessageLabel', current_locale.code)}
+
+  - if space && has_errors
+    .status-block.status-block--info
+      svg.status-block__icon.status-block__icon--info
+        use(xlink:href='/icons/icons.svg#info')
+      .status-block__content
+        .status-block__message #{I18n.translate('connectedToSpaceLabel', current_locale.code)} “#{space.name}”
+
+  form(action="/settings" method="POST" class="form")
+    .form-item
+      label(for="input-space-id") #{I18n.translate('spaceIdLabel', current_locale.code)}
+      input(type="text" name="spaceId" id="input-space-id" value=space_id)
+      - if errors.include?(:spaceId)
+        == render_with_globals :_renderErrors, locals: { errors: errors[:spaceId] }
+      .form-item__help-text #{I18n.translate('spaceIdHelpText', current_locale.code)}
+
+    .form-item
+      label(for="input-delivery-token") Content Delivery API - #{I18n.translate('accessTokenLabel', current_locale.code)}
+      input(type="text" name="deliveryToken" id="input-delivery-token" value=delivery_token)
+      - if errors.include?(:deliveryToken)
+        == render_with_globals :_renderErrors, locals: { errors: errors[:deliveryToken] }
+      .form-item__help-text
+        | #{I18n.translate('contentDeliveryApiHelpText', current_locale.code)}&nbsp;
+        a(href='https://www.contentful.com/developers/docs/references/content-delivery-api/' target='_blank' rel='noopener') Content Delivery API.
+
+    .form-item
+      label(for="input-preview-token") Content Preview API - #{I18n.translate('accessTokenLabel', current_locale.code)}
+      input(type="text" name="previewToken" id="input-preview-token" value=preview_token)
+      - if errors.include?(:previewToken)
+        == render_with_globals :_renderErrors, locals: { errors: errors[:previewToken] }
+      .form-item__help-text
+        | #{I18n.translate('contentPreviewApiHelpText', current_locale.code)}&nbsp;
+        a(href='https://www.contentful.com/developers/docs/references/content-preview-api/' target='_blank' rel='noopener') Content Preview API.
+
+    .form-item
+      input(type="checkbox" name="editorialFeatures" id="input-editorial-features" checked=editorial_features)
+      label(for="input-editorial-features") #{I18n.translate('enableEditorialFeaturesLabel', current_locale.code)}
+      .form-item__help-text #{I18n.translate('enableEditorialFeaturesHelpText', current_locale.code)}
+
+    .form-item
+      input.cta(type="submit" value=I18n.translate('saveSettingsButtonLabel', current_locale.code))

@@ -12,9 +12,10 @@ module Routes
     set :views, File.join(Dir.pwd, 'views')
 
     DEFAULT_API = 'cda'.freeze
+    DEFAULT_LOCALE_CODE = 'en-US'.freeze
     DEFAULT_LOCALE = ::Contentful::Locale.new({
-      'code' => 'en-US',
-      'name' => 'US English',
+      'code' => DEFAULT_LOCALE_CODE,
+      'name' => 'U.S. English',
       'default' => true
     })
 
@@ -44,8 +45,8 @@ module Routes
     end
 
     def locale
-      @locale = locales.detect { |locale| locale.code == params['locale'] }
-    rescue ::Contentful::Error
+      @locale = locales.detect { |locale| locale.code == (params['locale'] || DEFAULT_LOCALE_CODE) }
+    rescue
       DEFAULT_LOCALE
     end
 
@@ -69,7 +70,9 @@ module Routes
           query_string: request.query_string ? "?#{request.query_string}" : '',
           breadcrumbs: raw_breadcrumbs,
           editorial_features: session[:editorial_features],
-          space_id: session[:space_id] || ENV['CONTENTFUL_SPACE_ID']
+          space_id: session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
+          delivery_token: session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN'],
+          preview_token: session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
         }
 
         slim template, locals: globals.merge(locals)
