@@ -28,7 +28,7 @@ class ExampleApp < Sinatra::Base
   I18n.initialize_translations
 
   # Middleware
-  use Rack::LiveReload
+  use Rack::LiveReload if settings.development?
   use Rack::SslEnforcer, :except_hosts => 'localhost'
 
   # Enable Sinatra session after SslEnforcer

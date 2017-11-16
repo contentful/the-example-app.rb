@@ -22,11 +22,21 @@ gem 'dotenv'
 gem 'contentful'
 
 group :development do
-  # Debugging
-  gem 'pry'
-  gem 'pry-remote'
-
   # Live-reload
   gem 'rack-livereload'
   gem 'rerun'
+end
+
+group :development, :test do
+  # Debugging
+  gem 'pry'
+  gem 'pry-remote'
+end
+
+group :test do
+  # Testing
+  gem 'rspec'
+  gem 'rack-test', require: 'rack/test'
+  gem 'guard'
+  gem 'guard-rspec'
 end
