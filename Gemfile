@@ -42,4 +42,5 @@ group :test do
   gem 'rack-test', require: 'rack/test'
   gem 'guard'
   gem 'guard-rspec'
+  gem 'simplecov'
 end

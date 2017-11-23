@@ -19,7 +19,7 @@ module Breadcrumbs
 
     parts.each_with_index do |part, index|
       label = part.tr('-', ' ')
-      label = I18n.translate("#{label}Label", locale.code) if I18n.translation_avaliable("#{label}Label", locale.code)
+      label = I18n.translate("#{label}Label", locale.code) if I18n.translation_available?("#{label}Label", locale.code)
 
       path = parts[0..index].join('/')
       crumbs << {

@@ -47,7 +47,7 @@ module I18n
   # @param locale [String] Locale code
   #
   # @return [Boolean]
-  def self.translation_avaliable(symbol, locale = 'en-US')
+  def self.translation_available?(symbol, locale = 'en-US')
     !!(@translations[locale] || {})[symbol]
   end
 end
