@@ -22,12 +22,12 @@
         == render_with_globals :_editorialFeatures, locals: { entry: course }
         .course__overview
           h3.course__overview-title #{I18n.translate('overviewLabel', current_locale.code)}
-          - if course.duration
+          - if course.fields[:duration]
             .course__overview-item
               svg.course__overview-icon
                 use(xlink:href='/icons/icons.svg#duration')
               .course__overview-value #{I18n.translate('durationLabel', current_locale.code)}: #{course.duration} #{I18n.translate('minutesLabel', current_locale.code)}
-          - if course.skill_level
+          - if course.fields[:skill_level]
             .course__overview-item
               svg.course__overview-icon
                 use(xlink:href='/icons/icons.svg#skill-level')

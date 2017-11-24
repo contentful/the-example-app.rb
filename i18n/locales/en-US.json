@@ -22,7 +22,7 @@
   "imprintLabel": "Imprint",
   "contactUsLabel": "Contact us",
   "modalTitle": "A reference for developers using Contentful",
-  "modalIntro": "This is \"The Example App\" in node.js. While building your own apps with Contentful, you can reference this app's code, found on",
+  "modalIntro": "This is \"The Example App\". While building your own apps with Contentful, you can reference this app's code, found on",
   "modalSpaceIntro": "You can also edit the content in the app by cloning the Contentful space to your own Contentful account by following the instructions",
   "modalSpaceLinkLabel": "here",
   "modalCTALabel": "Ok, got it.",

@@ -41,13 +41,16 @@ module EntryState
   #
   # @return [Boolean]
   def show_entry_state?(entry)
-    current_api[:id] == 'cpa' && (entry.draft || entry.pending_changes)
+    current_api[:id] == 'cpa' && (
+      (entry.respond_to?(:draft) && entry.draft) ||
+      (entry.respond_to?(:pending_changes) && entry.pending_changes)
+    )
   end
 
   # Returns wether or not state methods should be attached
   #
   # @return [Boolean]
   def attach_entry_state?
-    session[:editorial_features] && current_api[:id] == 'cpa'
+    current_api[:id] == 'cpa' && session[:editorial_features]
   end
 end
