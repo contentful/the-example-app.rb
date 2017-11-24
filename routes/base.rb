@@ -20,6 +20,14 @@ module Routes
       'default' => true
     )
 
+    # If configuration is sent on the parameters, save it in the session
+    before do
+      session[:space_id] = params['space_id'] if params.key?('space_id')
+      session[:delivery_token] = params['delivery_token'] if params.key?('delivery_token')
+      session[:preview_token] = params['preview_token'] if params.key?('preview_token')
+      session[:editorial_features] = params['editorial_features'] == 'true' if params.key?('editorial_features')
+    end
+
     # Wrapper for the Contentful service
     def contentful
       Services::Contentful.instance(
