@@ -40,7 +40,7 @@ bundle install
 To start the server, run the following
 
 ```bash
-foreman start
+foreman start web
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and take a look around. 
@@ -77,7 +77,7 @@ PORT=3000
 
 Step 7: To start the server, run the following
 ```bash
-rerun 'foreman start'
+rerun 'foreman start web'
 ```
 Final Step:
 
