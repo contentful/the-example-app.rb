@@ -53,6 +53,7 @@ module Routes
         end
 
         space = contentful.space(api_id)
+        status errors.empty? ? 201 : 409
         render_with_globals :settings, locals: {
           title: I18n.translate('settingsLabel', locale.code),
           errors: errors,

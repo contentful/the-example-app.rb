@@ -46,4 +46,5 @@ group :test do
   gem 'guard'
   gem 'guard-rspec'
   gem 'simplecov'
+  gem 'capybara', '~> 2.8'
 end
