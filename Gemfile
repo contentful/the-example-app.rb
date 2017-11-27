@@ -26,6 +26,9 @@ gem 'dotenv'
 # Contentful Delivery SDK
 gem 'contentful'
 
+# Rake tasks
+gem 'rake'
+
 group :development do
   gem 'rerun'
 end
