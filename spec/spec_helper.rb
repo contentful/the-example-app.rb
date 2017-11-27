@@ -8,7 +8,13 @@ require 'rack/test'
 require 'capybara'
 require 'capybara/dsl'
 
-Dir[File.join(File.dirname(__FILE__), '..', '**', '*.rb')].each { |f| require f unless f.include?('_spec.rb') }
+['lib', 'I18n', 'routes', 'services'].each do |dir|
+  Dir[File.join(File.dirname(__FILE__), '..', dir, '*.rb')].each do |f|
+    require f
+  end
+end
+
+require File.join(File.dirname(__FILE__), '..', 'app.rb')
 
 Capybara.app = ExampleApp
 
