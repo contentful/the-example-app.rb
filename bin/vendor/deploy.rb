@@ -1,5 +1,5 @@
 module Deploy
-  ANALYTICS_FILE = File.join(File.dirname(__FILE__), 'analytics.html')
+  ANALYTICS_FILE = File.join(File.dirname(__FILE__), 'analytics.slim')
   LAYOUT_FILE = File.join(File.dirname(__FILE__), '..', '..', 'views', 'layout.slim')
 
   def self.append_analytics
