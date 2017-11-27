@@ -92,7 +92,7 @@ module Routes
           current_locale: locale,
           current_api: current_api,
           current_path: request.path,
-          query_string: request.query_string ? "?#{query_string}" : '',
+          query_string: query_string.empty? ? '' : "?#{query_string}",
           breadcrumbs: raw_breadcrumbs,
           editorial_features: session[:editorial_features],
           space_id: session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
