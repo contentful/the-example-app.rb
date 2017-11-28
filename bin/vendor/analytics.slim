@@ -36,7 +36,7 @@
       snowplow('trackSelfDescribingEvent', {
         schema: 'iglu:com.contentful/app_the_example_app_open/jsonschema/1-0-0',
         data: {
-          space_id,
+          space_id: #{space_id},
           sdk_language_used: 'ruby',
           app_framework: 'sinatra'
         }
