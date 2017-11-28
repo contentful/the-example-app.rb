@@ -43,7 +43,7 @@ To start the server, run the following
 foreman start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and take a look around. 
+Open [http://localhost:3000](http://localhost:3000) and take a look around.
 
 
 ## Steps for read and write access (recommended)
@@ -62,7 +62,7 @@ Step 4: Seed the new space with the content model. Replace the `SPACE_ID` with t
 ```
 contentful space seed -s '<SPACE_ID>' -t the-example-app
 ```
-Step 5: Head to the Contentful web app's API section and grab `SPACE_ID`, `DELIVERY_ACCESS_TOKEN`, `PREVIEW_ACCESS_TOKEN`. 
+Step 5: Head to the Contentful web app's API section and grab `SPACE_ID`, `DELIVERY_ACCESS_TOKEN`, `PREVIEW_ACCESS_TOKEN`.
 
 Step 6: Open `.env` and inject your credentials so it looks like this
 
@@ -82,6 +82,38 @@ rerun 'foreman start'
 Final Step:
 
 Open [http://localhost:3000?enable_editorial_features](http://localhost:3000?enable_editorial_features) and take a look around. This URL flag adds an “Edit” button in the app on every editable piece of content which will take you back to Contentful web app where you can make changes. It also adds “Draft” and “Pending Changes” status indicators to all content if relevant.
+
+
+## Use Docker
+You can also run this app as a Docker container:
+
+Step 1: Clone the repo
+
+```bash
+git clone https://github.com/contentful/the-example-app.rb.git
+```
+
+Step 2: Build the Docker image
+
+```bash
+docker build -t the-example-app.rb .
+```
+
+Step 3: Run the Docker container locally:
+
+```bash
+docker run -p 3000:3000 -d the-example-app.rb
+```
+
+If you created your own Contentful space, you can use it by overriding the following environment variables:
+
+```bash
+docker run -p 3000:3000 \
+  -e CONTENTFUL_SPACE_ID=<SPACE_ID> \
+  -e CONTENTFUL_DELIVERY_TOKEN=<DELIVERY_ACCESS_TOKEN> \
+  -e CONTENTFUL_PREVIEW_TOKEN=<PREVIEW_ACCESS_TOKEN> \
+  -d the-example-app.rb
+```
 
 ## Deploy to Heroku
 You can also deploy this app to Heroku:
