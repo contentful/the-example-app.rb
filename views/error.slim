@@ -7,12 +7,12 @@
       - case status
         - when 400
             li #{I18n.translate('contentModelChangedErrorLabel', current_locale.code)}
+            li #{I18n.translate('localeContentErrorLabel', current_locale.code)}
         - when 401
             li #{I18n.translate('verifyCredentialsErrorLabel', current_locale.code)}
         - when 404
             li #{I18n.translate('error404Route', current_locale.code)}
             li #{I18n.translate('draftOrPublishedErrorLabel', current_locale.code)}
-            li #{I18n.translate('localeContentErrorLabel', current_locale.code)}
       - if environment != 'production' && stacktrace
         li #{I18n.translate('stackTraceErrorLabel', current_locale.code)}
     - if environment != 'production'
