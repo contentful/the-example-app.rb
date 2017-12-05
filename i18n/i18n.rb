@@ -9,7 +9,7 @@ module I18n
 
     @translations = {}
 
-    locales_path = File.join(Dir.pwd, 'i18n', 'locales')
+    locales_path = File.join(Dir.pwd, 'public', 'locales', 'json')
 
     begin
       Dir.foreach(locales_path) do |filename|
