@@ -22,10 +22,45 @@
     .status-block.status-block--info
       svg.status-block__icon.status-block__icon--info
         use(xlink:href='/icons/icons.svg#info')
-      .status-block__content
-        .status-block__message #{I18n.translate('connectedToSpaceLabel', current_locale.code)} “#{space.name}”
 
-  form(action="/settings" method="POST" class="form")
+      - if !is_using_custom_credentials
+        .status-block__content
+          .status-block__message
+            p
+              em= I18n.translate("usingServerCredentialsLabel", current_locale.code)
+            p
+              strong= I18n.translate("connectedToSpaceLabel", current_locale.code)
+              br
+              = "#{space.name} (#{space_id})"
+            p
+              strong= I18n.translate("credentialSourceLabel", current_locale.code)
+              br
+              = "#{I18n.translate("loadedFromLocalFileLabel", current_locale.code)} "
+              a(href="https://github.com/contentful/the-example-app.rb/blob/master/.env" target="_blank" rel="noopener") .env
+            p
+              em= I18n.translate("overrideConfigLabel", current_locale.code)
+      - else
+        .status-block__content
+          .status-block__message
+            p
+              em= I18n.translate("usingSessionCredentialsLabel", current_locale.code)
+            p
+              strong= I18n.translate("connectedToSpaceLabel", current_locale.code)
+              br
+              = "#{space.name} (#{space_id})"
+            form.form(action="/settings/reset#{query_string}" method="post")
+              p
+                strong= I18n.translate("applicationCredentialsLabel", current_locale.code)
+                br
+                button(type="submit")= I18n.translate("resetCredentialsLabel", current_locale.code)
+                br
+                - share_address = "/#{query_string}#{ query_string ? '&' : '?'}space_id=#{space_id}&preview_token=#{preview_token}&delivery_token=#{delivery_token}#{editorial_features ? '&enable_editorial_features' : ''}"
+                a.status-block__sharelink(href=share_address)
+                  = I18n.translate("copyLinkLabel", current_locale.code)
+            p
+              em= I18n.translate("overrideConfigLabel", current_locale.code)
+
+  form.form(action="/settings#{query_string}" method="post")
     .form-item
       label(for="input-space-id") #{I18n.translate('spaceIdLabel', current_locale.code)}
       input(type="text" name="spaceId" id="input-space-id" value=space_id)

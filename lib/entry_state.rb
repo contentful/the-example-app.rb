@@ -13,14 +13,62 @@ module EntryState
   # @param entry [Contentful::Entry]
   def attach_entry_state(entry)
     delivery_entry = published_entry(entry)
+
+    draft_value = known_resources_for(entry, delivery_entry).any? do |(_preview_resource, delivery_resource)|
+      delivery_resource.nil?
+    end
     entry.define_singleton_method(:draft) do
-      delivery_entry.nil?
+      draft_value
     end
 
-    pending_changes_value = pending_changes?(entry, delivery_entry)
+    pending_changes_value = known_resources_for(entry, delivery_entry).any? do |(preview_resource, delivery_resource)|
+      pending_changes?(preview_resource, delivery_resource)
+    end
     entry.define_singleton_method(:pending_changes) do
       pending_changes_value
     end
+  end
+
+  # Returns matching resources between Previw and Delivery APIs.
+  # We check only for the main resource itself and for nested modules.
+  #
+  # @param preview_entry [Contentful::Entry] Entry from Preview API.
+  # @param delivery_entry [Contentful::Entry] Entry from the Delivery API.
+  #
+  # @return [Array<Array<Contentful::Entry, Contentful::Entry>>]
+  def known_resources_for(preview_entry, delivery_entry)
+    resources = []
+    preview_entry.fields.each do |field, value|
+      if field.to_s.include?('modules')
+        value.each do |preview_resource|
+          resources << [
+            preview_resource,
+            find_matching_resource(
+              preview_resource,
+              delivery_entry,
+              field
+            )
+          ]
+        end
+      end
+    end
+    resources << [preview_entry, delivery_entry]
+
+    resources
+  end
+
+  # Returns matching resource for a specific field.
+  #
+  # @param preview_resource [Contentful::Entry] Entry from the Preview API to match.
+  # @param delivery_entry [Contentful::Entry] Entry to search from, from the Delivery API.
+  # @param search_field [String] Field in which to search in the delivery entry.
+  #
+  # @return [Contentful::Entry, nil] Entry from the Delivery API or nil.
+  def find_matching_resource(preview_resource, delivery_entry, search_field)
+    _field, values = delivery_entry.fields.detect { |k, _v| k == search_field }
+    return nil if values.nil?
+
+    values.detect { |delivery_resource| delivery_resource.id == preview_resource.id }
   end
 
   # Compares the state of the entry to define if it's been updated

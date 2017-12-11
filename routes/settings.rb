@@ -11,8 +11,9 @@ module Routes
           title: I18n.translate('settingsLabel', locale.code),
           errors: {},
           has_errors: false,
-          success: false,
-          space: space
+          success: true,
+          space: space,
+          is_using_custom_credentials: custom_credentials?
         }
       end
     end
@@ -59,9 +60,28 @@ module Routes
           errors: errors,
           has_errors: !errors.empty?,
           success: errors.empty?,
-          space: space
+          space: space,
+          is_using_custom_credentials: custom_credentials?
         }
       end
+    end
+
+    post '/settings/reset' do
+      session[:space_id] = nil
+      session[:delivery_token] = nil
+      session[:preview_token] = nil
+      session[:editorial_features] = false
+
+      space = contentful.space(api_id)
+      status 201
+      render_with_globals :settings, locals: {
+        title: I18n.translate('settingsLabel', locale.code),
+        errors: [],
+        has_errors: false,
+        success: true,
+        space: space,
+        is_using_custom_credentials: custom_credentials?
+      }
     end
 
     # Helper for checking space/token combinations
@@ -84,6 +104,20 @@ module Routes
         errors[token_field] ||= []
         errors[token_field] << "#{I18n.translate('somethingWentWrongLabel', locale.code)}: #{e.message}"
       end
+    end
+
+    # Checks if user is using session or environment credentials
+    def custom_credentials?
+      session_space_id = session[:space_id]
+      session_delivery_token = session[:delivery_token]
+      session_preview_token = session[:preview_token]
+
+      !session_space_id.nil? &&
+        session_space_id != ENV['CONTENTFUL_SPACE_ID'] &&
+        !session_delivery_token.nil? &&
+        session_delivery_token != ENV['CONTENTFUL_DELIVERY_TOKEN'] &&
+        !session_preview_token.nil? &&
+        session_preview_token != ENV['CONTENTFUL_PREVIEW_TOKEN']
     end
   end
 end

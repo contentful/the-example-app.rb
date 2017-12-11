@@ -25,7 +25,7 @@ module Routes
       session[:space_id] = params['space_id'] if params.key?('space_id')
       session[:delivery_token] = params['delivery_token'] if params.key?('delivery_token')
       session[:preview_token] = params['preview_token'] if params.key?('preview_token')
-      session[:editorial_features] = params['editorial_features'] == 'true' if params.key?('editorial_features')
+      session[:editorial_features] = true if params.key?('enable_editorial_features')
     end
 
     # Wrapper for the Contentful service

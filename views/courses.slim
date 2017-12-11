@@ -11,10 +11,20 @@
             a.sidebar-menu__link(href="/courses#{query_string}" class=(current_path.end_with?('/courses') ? 'active' : '')) #{I18n.translate('allCoursesLabel', current_locale.code)}
           - categories.each do |category|
             li.sidebar-menu__item
-              a.sidebar-menu__link(href="/courses/categories/#{category.slug}#{query_string}" class=(current_path.end_with?(category.slug) ? 'active' : '')) #{category.title}
+              a.sidebar-menu__link(href="/courses/categories/#{category.slug}#{query_string}" class=(current_path.end_with?(category.slug) ? 'active' : ''))= category.title
   section.layout-sidebar__content
     .courses
       h1= title
+
+      - if editorial_features
+        .editorial-features
+          .editorial-features__item
+            a.editorial-features__text(href="https://app.contentful.com/spaces/#{space_id}/entries/?contentTypeId=course" target="_blank" rel="noopener")= I18n.translate('editInTheWebAppLabel', current_locale.code)
+
+            .editorial-features__hint-wrapper
+              svg.editorial-features__hint-icon
+                use(xlink:href='/icons/icons.svg#info')
+                .editorial-features__hint-message= I18n.translate('editorialFeaturesHint', current_locale.code)
       .grid-list
         - courses.each do |course|
           .grid-list__item

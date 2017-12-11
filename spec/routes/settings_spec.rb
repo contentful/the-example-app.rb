@@ -6,7 +6,7 @@ describe Routes::Settings do
       visit route('/settings')
 
       expect(page).to have_content 'To query and get content using the APIs, client applications need to authenticate with both the Space ID and an access token.'
-      expect(page).to have_content 'Connected to space “The Example App Space v1”'
+      expect(page).to have_content 'The example app space v1'
     end
   end
 
@@ -20,8 +20,28 @@ describe Routes::Settings do
 
       click_button 'Save settings'
 
-      expect(page).to have_content 'Connected to space “TEA”'
+      expect(page).to have_content 'TEA'
       expect(page.status_code).to eq 201
+    end
+  end
+
+  describe 'post /reset' do
+    it 'resets the session' do
+      # Setup
+      visit route('/settings')
+
+      fill_in "Space ID", with: '2qyxj1hqedht'
+      fill_in "Content Delivery API - access token", with: '97dd6f2251320afebc6416acb12a6c47ac836bbaea815eb55e7d2d59b80e79f3'
+      fill_in "Content Preview API - access token", with: 'bfc009b1ec707da40d875e1942dbb009eea7d1c19785b7dbd90ecf2cdfd1d989'
+
+      click_button 'Save settings'
+
+      expect(page).to have_content 'TEA'
+
+      # Test
+      click_button 'Reset credentials to default'
+
+      expect(page).to have_content 'The example app space v1'
     end
   end
 
