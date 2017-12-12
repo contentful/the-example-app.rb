@@ -34,7 +34,7 @@ describe Routes::Courses do
 
     describe '/courses/:slug' do
       it 'renders a course overview' do
-        visit route('/courses/hello-world')
+        visit route('/courses/hello-contentful')
         expect(page).to have_content 'Table of contents'
         expect(page).to have_content 'Course overview'
         expect(page).to have_content 'Start course'
@@ -43,12 +43,12 @@ describe Routes::Courses do
 
     describe '/courses/:slug/lessons' do
       it 'redirects to course overview' do
-        get route('/courses/hello-world/lessons')
+        get route('/courses/hello-contentful/lessons')
         expect(last_response.status).to eq 302
       end
 
       it 'renders course overview' do
-        visit route('/courses/hello-world/lessons')
+        visit route('/courses/hello-contentful/lessons')
         expect(page).to have_content 'Table of contents'
         expect(page).to have_content 'Course overview'
         expect(page).to have_content 'Start course'
@@ -57,7 +57,7 @@ describe Routes::Courses do
 
     describe '/courses/:c_slug/lessons/:l_slug' do
       it 'renders a lesson' do
-        visit route('/courses/hello-world/lessons/architecture')
+        visit route('/courses/hello-contentful/lessons/architecture')
         expect(page).to have_content 'Go to the next lesson'
       end
     end

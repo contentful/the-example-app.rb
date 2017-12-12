@@ -17,7 +17,7 @@ describe ExampleApp do
     end
 
     it '/courses/:slug' do
-      get route('/courses/hello-world')
+      get route('/courses/hello-contentful')
       expect(last_response.ok?).to eq true
     end
 
@@ -37,7 +37,7 @@ describe ExampleApp do
     end
 
     it '/courses/:c_slug/lessons/:l_slug' do
-      get route('/courses/hello-world/lessons/architecture')
+      get route('/courses/hello-contentful/lessons/architecture')
       expect(last_response.ok?).to eq true
     end
 
