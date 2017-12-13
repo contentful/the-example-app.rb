@@ -13,7 +13,8 @@ module Routes
           has_errors: false,
           success: true,
           space: space,
-          is_using_custom_credentials: custom_credentials?
+          is_using_custom_credentials: custom_credentials?,
+          host: request.host_with_port
         }
       end
     end
@@ -61,27 +62,31 @@ module Routes
           has_errors: !errors.empty?,
           success: errors.empty?,
           space: space,
-          is_using_custom_credentials: custom_credentials?
+          is_using_custom_credentials: custom_credentials?,
+          host: request.host_with_port
         }
       end
     end
 
     post '/settings/reset' do
-      session[:space_id] = nil
-      session[:delivery_token] = nil
-      session[:preview_token] = nil
-      session[:editorial_features] = false
+      wrap_errors do
+        session[:space_id] = nil
+        session[:delivery_token] = nil
+        session[:preview_token] = nil
+        session[:editorial_features] = false
 
-      space = contentful.space(api_id)
-      status 201
-      render_with_globals :settings, locals: {
-        title: I18n.translate('settingsLabel', locale.code),
-        errors: [],
-        has_errors: false,
-        success: true,
-        space: space,
-        is_using_custom_credentials: custom_credentials?
-      }
+        space = contentful.space(api_id)
+        status 201
+        render_with_globals :settings, locals: {
+          title: I18n.translate('settingsLabel', locale.code),
+          errors: [],
+          has_errors: false,
+          success: true,
+          space: space,
+          is_using_custom_credentials: custom_credentials?,
+          host: request.host_with_port
+        }
+      end
     end
 
     # Helper for checking space/token combinations
