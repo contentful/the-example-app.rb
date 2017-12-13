@@ -54,7 +54,7 @@
                 br
                 button(type="submit")= I18n.translate("resetCredentialsLabel", current_locale.code)
                 br
-                - share_address = "/#{query_string}#{ query_string ? '&' : '?'}space_id=#{space_id}&preview_token=#{preview_token}&delivery_token=#{delivery_token}#{editorial_features ? '&enable_editorial_features' : ''}"
+                - share_address = "#{host}/#{query_string}#{ query_string.empty? ? '?' : '&'}space_id=#{space_id}&preview_token=#{preview_token}&delivery_token=#{delivery_token}#{editorial_features ? '&enable_editorial_features' : ''}"
                 a.status-block__sharelink(href=share_address)
                   = I18n.translate("copyLinkLabel", current_locale.code)
             p
