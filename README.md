@@ -1,6 +1,6 @@
-[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.rb.svg)](https://circleci.com/gh/contentful/the-example-app.rb)
-
 ## The Ruby example app
+
+[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.rb.svg)](https://circleci.com/gh/contentful/the-example-app.rb)
 
 The Ruby example app teaches the very basics of how to work with Contentful:
 
@@ -10,7 +10,7 @@ The Ruby example app teaches the very basics of how to work with Contentful:
 
 The app demonstrates how decoupling content from its presentation enables greater flexibility and facilitates shipping higher quality software more quickly.
 
-<a href="https://the-example-app-rb.herokuapp.com/" target="_blank"><img src="https://images.contentful.com/lo4pi5z0oso5/kwVuKIR6a4uYKk68Gy4KS/9a83dc453de36b45e997f0a38bb3080f/Screen_Shot_2017-12-11_at_13.19.04.png" alt="Screenshot of the example app"/></a>
+<a href="https://the-example-app-rb.herokuapp.com/" target="_blank"><img src="https://images.contentful.com/88dyiqcr7go8/335xTWqf4s0kYCUiyWo8oo/98a1b4bc65f54e6b93146cf95c88c0db/the-example-app-rb.herokuapp.com.png" alt="Screenshot of the example app"/></a>
 
 You can see a hosted version of `The Ruby example app` on <a href="https://the-example-app-rb.herokuapp.com/" target="_blank">Heroku</a>.
 
