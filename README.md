@@ -1,4 +1,4 @@
-![CircleCI Token](https://circleci.com/gh/contentful/the-example-app.rb.svg?style=shield)
+[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.rb.svg)]()
 
 ## The Ruby example app
 
