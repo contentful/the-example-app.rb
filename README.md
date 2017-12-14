@@ -1,3 +1,5 @@
+![CircleCI Token](https://circleci.com/gh/contentful/the-example-app.rb.svg?style=shield)
+
 ## The Ruby example app
 
 The Ruby example app teaches the very basics of how to work with Contentful:
