@@ -11,7 +11,7 @@ module Routes
           title: I18n.translate('settingsLabel', locale.code),
           errors: {},
           has_errors: false,
-          success: true,
+          success: false,
           space: space,
           is_using_custom_credentials: custom_credentials?,
           host: request.host_with_port
