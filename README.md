@@ -1,4 +1,4 @@
-[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.rb.svg)]()
+[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.rb.svg)](https://circleci.com/gh/contentful/the-example-app.rb)
 
 ## The Ruby example app
 
