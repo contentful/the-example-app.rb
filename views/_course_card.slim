@@ -1,6 +1,6 @@
 .course-card
   .course-card__categories
-    - if course.categories
+    - if course.fields.key?(:categories)
       - course.categories.each do |category|
         .course-card__category
           a.course-card__category-link(href="/courses/categories/#{category.slug}#{query_string}") #{category.title}
