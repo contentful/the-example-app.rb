@@ -30,7 +30,7 @@ end
 class MockEntryState
   include EntryState
 
-  def initialize(current_api = 'cda', editorial_features = false, delivery_published_at = 'mock_published_date', delivery_updated_at = 'mock_updated_date')
+  def initialize(current_api = 'cda', editorial_features = false, delivery_published_at = DateTime.new(2017, 12, 14), delivery_updated_at = DateTime.new(2017, 12, 14))
     @current_api = current_api
     @editorial_features = editorial_features
     @delivery_published_at = delivery_published_at
@@ -76,15 +76,15 @@ describe EntryState do
       end
 
       it 'false if both entries present but have same updated_at dates' do
-        preview_entry = MockEntry.new('foo', 'p_date', 'u_date')
-        delivery_entry = MockEntry.new('foo', 'p_date', 'u_date')
+        preview_entry = MockEntry.new('foo', DateTime.new(2017, 12, 14), DateTime.new(2017, 12, 14))
+        delivery_entry = MockEntry.new('foo', DateTime.new(2017, 12, 14), DateTime.new(2017, 12, 14))
 
         expect(MockEntryState.new.pending_changes?(preview_entry, delivery_entry)).to be_falsey
       end
 
       it 'true if both entries have different updated_at dates' do
-        preview_entry = MockEntry.new('foo', 'p_date', 'u2_date')
-        delivery_entry = MockEntry.new('foo', 'p_date', 'u_date')
+        preview_entry = MockEntry.new('foo', DateTime.new(2017, 12, 14), DateTime.new(2017, 12, 16))
+        delivery_entry = MockEntry.new('foo', DateTime.new(2017, 12, 14), DateTime.new(2017, 12, 14))
 
         expect(MockEntryState.new.pending_changes?(preview_entry, delivery_entry)).to be_truthy
       end
@@ -92,7 +92,7 @@ describe EntryState do
 
     describe '#show_entry_state?' do
       before :each do
-        @entry = MockEntry.new('foo', 'mock_published_date', 'mock_updated_date')
+        @entry = MockEntry.new('foo', DateTime.new(2017, 12, 14), DateTime.new(2017, 12, 14))
       end
 
       it 'false if current api is cda' do
@@ -114,10 +114,17 @@ describe EntryState do
       end
 
       it 'true if current api is cpa and entry is pending changes' do
-        entry_state = MockEntryState.new('cpa', false, 'mock_published_date', 'other_date')
+        entry_state = MockEntryState.new('cpa', false, DateTime.new(2017, 12, 14), DateTime.new(2017, 12, 16))
         entry_state.attach_entry_state(@entry)
 
         expect(entry_state.show_entry_state?(@entry)).to eq true
+      end
+    end
+
+    describe '#sanitize_date' do
+      it 'removes milliseconds from a DateTime object' do
+        time = DateTime.new(2017, 12, 14, 12, 30, 30, 123)
+        expect(MockEntryState.new.sanitize_date(time).iso8601).to eq "2017-12-14T12:30:30+00:00"
       end
     end
   end
