@@ -79,8 +79,20 @@ module EntryState
   # @return [Boolean]
   def pending_changes?(preview_entry, delivery_entry)
     preview_entry && delivery_entry && (
-        preview_entry.updated_at != delivery_entry.updated_at
+        sanitize_date(preview_entry.updated_at) != sanitize_date(delivery_entry.updated_at)
     )
+  end
+
+
+  # In order to have a more accurate comparison due to minimal delays
+  # upon publishing entries. We strip milliseconds from the dates we compare.
+  #
+  # @param date [::DateTime]
+  # @return [::Time] without milliseconds.
+  def sanitize_date(date)
+    time = date.to_time
+
+    ::Time.new(time.year, time.month, time.day, time.hour, time.min, time.sec, time.utc_offset)
   end
 
   # Returns wether or not entry state pill should be shown

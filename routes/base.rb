@@ -80,7 +80,7 @@ module Routes
       request.query_string.split('&').reject do |part|
         key = part.split('=').first
 
-        %w(space_id delivery_token preview_token editorial_features).include?(key)
+        %w(space_id delivery_token preview_token enable_editorial_features).include?(key)
       end.join('&')
     end
 
