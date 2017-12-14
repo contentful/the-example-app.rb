@@ -1,6 +1,6 @@
-[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.rb.svg)](https://circleci.com/gh/contentful/the-example-app.rb)
-
 ## The Ruby example app
+
+[![CircleCI](https://img.shields.io/circleci/project/github/contentful/the-example-app.rb.svg)](https://circleci.com/gh/contentful/the-example-app.rb)
 
 The Ruby example app teaches the very basics of how to work with Contentful:
 
