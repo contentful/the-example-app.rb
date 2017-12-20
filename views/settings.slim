@@ -63,14 +63,14 @@
   form.form(action="/settings#{query_string}" method="post")
     .form-item
       label(for="input-space-id") #{I18n.translate('spaceIdLabel', current_locale.code)}
-      input(type="text" name="spaceId" id="input-space-id" value=space_id)
+      input(type="text" name="spaceId" id="input-space-id" value=space_id required="required")
       - if errors.include?(:spaceId)
         == render_with_globals :_renderErrors, locals: { errors: errors[:spaceId] }
       .form-item__help-text #{I18n.translate('spaceIdHelpText', current_locale.code)}
 
     .form-item
-      label(for="input-delivery-token") Content Delivery API - #{I18n.translate('accessTokenLabel', current_locale.code)}
-      input(type="text" name="deliveryToken" id="input-delivery-token" value=delivery_token)
+      label(for="input-delivery-token") #{I18n.translate('cdaAccessTokenLabel', current_locale.code)}
+      input(type="text" name="deliveryToken" id="input-delivery-token" value=delivery_token required="required")
       - if errors.include?(:deliveryToken)
         == render_with_globals :_renderErrors, locals: { errors: errors[:deliveryToken] }
       .form-item__help-text
@@ -78,8 +78,8 @@
         a(href='https://www.contentful.com/developers/docs/references/content-delivery-api/' target='_blank' rel='noopener') Content Delivery API.
 
     .form-item
-      label(for="input-preview-token") Content Preview API - #{I18n.translate('accessTokenLabel', current_locale.code)}
-      input(type="text" name="previewToken" id="input-preview-token" value=preview_token)
+      label(for="input-preview-token") #{I18n.translate('cpaAccessTokenLabel', current_locale.code)}
+      input(type="text" name="previewToken" id="input-preview-token" value=preview_token required="required")
       - if errors.include?(:previewToken)
         == render_with_globals :_renderErrors, locals: { errors: errors[:previewToken] }
       .form-item__help-text
