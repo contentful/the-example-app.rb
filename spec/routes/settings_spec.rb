@@ -6,7 +6,7 @@ describe Routes::Settings do
       visit route('/settings')
 
       expect(page).to have_content 'To query and get content using the APIs, client applications need to authenticate with both the Space ID and an access token.'
-      expect(page).to have_content 'The example app space v1'
+      expect(page).to have_content 'The example app v1'
     end
   end
 
@@ -41,7 +41,7 @@ describe Routes::Settings do
       # Test
       click_button 'Reset credentials to default'
 
-      expect(page).to have_content 'The example app space v1'
+      expect(page).to have_content 'The example app v1'
     end
   end
 

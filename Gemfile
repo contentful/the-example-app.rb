@@ -18,7 +18,7 @@ gem 'rack-livereload'
 gem 'slim'
 
 # Markdown engine
-gem 'kramdown'
+gem 'commonmarker'
 
 # Configuration management
 gem 'dotenv'
