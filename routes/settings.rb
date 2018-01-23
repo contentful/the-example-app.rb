@@ -111,18 +111,5 @@ module Routes
       end
     end
 
-    # Checks if user is using session or environment credentials
-    def custom_credentials?
-      session_space_id = session[:space_id]
-      session_delivery_token = session[:delivery_token]
-      session_preview_token = session[:preview_token]
-
-      !session_space_id.nil? &&
-        session_space_id != ENV['CONTENTFUL_SPACE_ID'] &&
-        !session_delivery_token.nil? &&
-        session_delivery_token != ENV['CONTENTFUL_DELIVERY_TOKEN'] &&
-        !session_preview_token.nil? &&
-        session_preview_token != ENV['CONTENTFUL_PREVIEW_TOKEN']
-    end
   end
 end

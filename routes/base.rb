@@ -108,6 +108,39 @@ module Routes
         return I18n.translate('defaultTitle', locale) unless title
         "#{title.capitalize} - #{I18n.translate('defaultTitle', locale)}"
       end
+
+
+      # Checks if user is using session or environment credentials
+      def custom_credentials?
+        session_space_id = session[:space_id]
+        session_delivery_token = session[:delivery_token]
+        session_preview_token = session[:preview_token]
+
+        !session_space_id.nil? &&
+          session_space_id != ENV['CONTENTFUL_SPACE_ID'] &&
+          !session_delivery_token.nil? &&
+          session_delivery_token != ENV['CONTENTFUL_DELIVERY_TOKEN'] &&
+          !session_preview_token.nil? &&
+          session_preview_token != ENV['CONTENTFUL_PREVIEW_TOKEN']
+      end
+
+
+      # Helper for parameterized url
+      def parameterized_url
+        return "" unless custom_credentials?
+
+        query = {
+          space_id: session[:space_id],
+          delivery_token: session[:delivery_token],
+          preview_token: session[:preview_token],
+          api_id: api_id
+        }.collect { |key, value| "#{key}=#{value}"}.join("&")
+
+        editorial_features_query = session[:enable_editorial_features] ? "&enable_editorial_features" : ""
+
+        return "?#{query}#{editorial_features_query}"
+
+      end
     end
   end
 end
