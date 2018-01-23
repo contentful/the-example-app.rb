@@ -1,5 +1,5 @@
 require 'slim'
-require 'kramdown'
+require 'commonmarker'
 require 'dotenv/load'
 require 'sinatra/base'
 require 'rack-livereload'
