@@ -33,7 +33,8 @@ module Routes
       Services::Contentful.instance(
         session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
         session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN'],
-        session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
+        session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN'],
+        ENV['CONTENTFUL_HOST']
       )
     end
 
