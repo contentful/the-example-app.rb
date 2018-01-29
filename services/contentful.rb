@@ -9,16 +9,17 @@ module Services
     # @param preview_token [String]
     #
     # @return [Services::Contentful]
-    def self.instance(space_id, delivery_token, preview_token)
+    def self.instance(space_id, delivery_token, preview_token, host = nil)
       @instance ||= nil
 
       # We create new client instances only if credentials changed or client wasn't instantiated before
       if @instance.nil? ||
          @instance.space_id != space_id ||
          @instance.delivery_token != delivery_token ||
-         @instance.preview_token != preview_token
+         @instance.preview_token != preview_token ||
+         @instance.host != host
 
-        @instance = new(space_id, delivery_token, preview_token)
+        @instance = new(space_id, delivery_token, preview_token, host)
       end
 
       @instance
@@ -31,21 +32,24 @@ module Services
     # @param is_preview [Boolean] wether or not the client uses the Preview API
     #
     # @return [::Contentful::Client]
-    def self.create_client(space_id, access_token, is_preview = false)
+    def self.create_client(space_id, access_token, is_preview = false, host = nil)
+      host ||= 'contentful'
+
       options = {
         space: space_id,
         access_token: access_token,
         dynamic_entries: :auto,
         raise_errors: true,
         application_name: 'the-example-app.rb',
-        application_version: '1.0.0'
+        application_version: '1.0.0',
+        api_url: "cdn.#{host}.com"
       }
-      options[:api_url] = 'preview.contentful.com' if is_preview
+      options[:api_url] = "preview.#{host}.com" if is_preview
 
       ::Contentful::Client.new(options)
     end
 
-    attr_reader :space_id, :delivery_token, :preview_token
+    attr_reader :space_id, :delivery_token, :preview_token, :host
 
     # Returns the corresponding client (Delivery or Preview)
     #
@@ -146,13 +150,14 @@ module Services
 
     private
 
-    def initialize(space_id, delivery_token, preview_token)
+    def initialize(space_id, delivery_token, preview_token, host = nil)
       @space_id = space_id
       @delivery_token = delivery_token
       @preview_token = preview_token
+      @host = host
 
-      @delivery_client = self.class.create_client(@space_id, @delivery_token)
-      @preview_client = self.class.create_client(@space_id, @preview_token, true)
+      @delivery_client = self.class.create_client(@space_id, @delivery_token, false, @host)
+      @preview_client = self.class.create_client(@space_id, @preview_token, true, @host)
     end
   end
 end
