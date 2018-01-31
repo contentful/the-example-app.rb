@@ -142,6 +142,11 @@ module Routes
         return "?#{query}#{editorial_features_query}"
 
       end
+
+      # Helper for getting the current CONTENTFUL_HOST
+      def api_host
+        ENV['CONTENTFUL_HOST'] || 'contentful'
+      end
     end
   end
 end
