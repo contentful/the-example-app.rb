@@ -30,7 +30,7 @@ class ExampleApp < Sinatra::Base
   # Middleware
   use Rack::LiveReload if settings.development?
   use Rack::SslEnforcer,
-      only_environmnets: 'production',
+      only_environmnets: ['production', 'staging'],
       except_hosts: 'localhost',
       redirect_html: false
 
