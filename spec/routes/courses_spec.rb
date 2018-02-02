@@ -57,7 +57,7 @@ describe Routes::Courses do
 
     describe '/courses/:c_slug/lessons/:l_slug' do
       it 'renders a lesson' do
-        visit route('/courses/hello-contentful/lessons/architecture')
+        visit route('/courses/hello-contentful/lessons/apis')
         expect(page).to have_content 'Go to the next lesson'
       end
     end
