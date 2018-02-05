@@ -91,7 +91,7 @@ module Routes
 
     # Helper for checking space/token combinations
     def validate_space_token_combination(errors, space_id, access_token, is_preview = false)
-      Services::Contentful.create_client(space_id, access_token, is_preview)
+      Services::Contentful.create_client(space_id, access_token, is_preview, ENV['CONTENTFUL_HOST'])
     rescue ::Contentful::Error => e
       token_field = is_preview ? :previewToken : :deliveryToken
 
