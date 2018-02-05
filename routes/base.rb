@@ -25,7 +25,7 @@ module Routes
       session[:space_id] = params['space_id'] if params.key?('space_id')
       session[:delivery_token] = params['delivery_token'] if params.key?('delivery_token')
       session[:preview_token] = params['preview_token'] if params.key?('preview_token')
-      session[:editorial_features] = true if params.key?('enable_editorial_features')
+      session[:editorial_features] = params['editorial_features'] == 'enabled' if params.key?('editorial_features')
     end
 
     # Wrapper for the Contentful service
@@ -81,7 +81,7 @@ module Routes
       request.query_string.split('&').reject do |part|
         key = part.split('=').first
 
-        %w(space_id delivery_token preview_token enable_editorial_features).include?(key)
+        %w(space_id delivery_token preview_token editorial_features).include?(key)
       end.join('&')
     end
 
@@ -137,7 +137,7 @@ module Routes
           api_id: api_id
         }.collect { |key, value| "#{key}=#{value}"}.join("&")
 
-        editorial_features_query = session[:enable_editorial_features] ? "&enable_editorial_features" : ""
+        editorial_features_query = session[:editorial_features] ? "&editorial_features=enabled" : ""
 
         return "?#{query}#{editorial_features_query}"
 
