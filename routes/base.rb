@@ -10,6 +10,8 @@ module Routes
     include Errors
     include EntryState
 
+    enable :sessions
+
     set :views, File.join(Dir.pwd, 'views')
 
     DEFAULT_API = 'cda'.freeze
@@ -140,9 +142,7 @@ module Routes
         editorial_features_query = session[:editorial_features] ? "&editorial_features=enabled" : ""
 
         return "?#{query}#{editorial_features_query}"
-
       end
-
     end
   end
 end
