@@ -2,8 +2,6 @@ require './routes/base'
 
 module Routes
   class Settings < Base
-    enable :sessions
-
     get '/settings' do
       wrap_errors do
         space = contentful.space(api_id)
@@ -110,6 +108,5 @@ module Routes
         errors[token_field] << "#{I18n.translate('somethingWentWrongLabel', locale.code)}: #{e.message}"
       end
     end
-
   end
 end
