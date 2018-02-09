@@ -149,7 +149,7 @@ module Routes
         attempted_delivery_token = params['delivery_token']
         attempted_preview_token = params['preview_token']
 
-        return (!attempted_space_id.nil? && current_space_id != attempted_space_id) ||
+        (!attempted_space_id.nil? && current_space_id != attempted_space_id) ||
           (!attempted_delivery_token.nil? && current_delivery_token != attempted_delivery_token) ||
           (!attempted_preview_token.nil? && current_preview_token != attempted_preview_token)
       end
@@ -167,7 +167,7 @@ module Routes
 
         editorial_features_query = session[:editorial_features] ? "&editorial_features=enabled" : ""
 
-        return "?#{query}#{editorial_features_query}"
+        "?#{query}#{editorial_features_query}"
       end
     end
 
