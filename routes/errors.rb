@@ -4,6 +4,10 @@ module Routes
   module Errors
     # Wrapper for displaying a custom error page
     def wrap_errors
+      if session[:has_errors]
+        session.delete(:has_errors)
+        return redirect('/settings')
+      end
       yield if block_given?
     rescue ::Contentful::Error => e
       return contentful_error(e)

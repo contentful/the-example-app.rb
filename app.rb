@@ -2,7 +2,6 @@ require 'slim'
 require 'commonmarker'
 require 'dotenv/load'
 require 'sinatra/base'
-require 'rack-livereload'
 require 'rack/ssl-enforcer'
 
 # Routes
@@ -28,7 +27,6 @@ class ExampleApp < Sinatra::Base
   I18n.initialize_translations
 
   # Middleware
-  use Rack::LiveReload if settings.development?
   use Rack::SslEnforcer,
       only_environmnets: ['production', 'staging'],
       except_hosts: 'localhost',

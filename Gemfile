@@ -11,9 +11,6 @@ gem 'sinatra'
 # SSL enforcer
 gem 'rack-ssl-enforcer'
 
-# Live-reload
-gem 'rack-livereload'
-
 # Templating language
 gem 'slim'
 

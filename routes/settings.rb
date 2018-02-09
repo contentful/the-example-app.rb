@@ -4,11 +4,20 @@ module Routes
   class Settings < Base
     get '/settings' do
       wrap_errors do
-        space = contentful.space(api_id)
+        # By default this should be empty, but if redirected to /settings
+        # when wrong credentials where entered in the query string, this check is
+        # required in order to get the proper error messages in the inputs.
+        errors = check_errors(
+          session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
+          session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN'],
+          session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
+        )
+
+        space = errors.empty? ? contentful.space(api_id) : nil
         render_with_globals :settings, locals: {
           title: I18n.translate('settingsLabel', locale.code),
-          errors: {},
-          has_errors: false,
+          errors: errors,
+          has_errors: !errors.empty?,
           success: false,
           space: space,
           is_using_custom_credentials: custom_credentials?,
@@ -19,31 +28,12 @@ module Routes
 
     post '/settings' do
       wrap_errors do
-        errors = {}
         space_id = params['spaceId']
         delivery_token = params['deliveryToken']
         preview_token = params['previewToken']
         editorial_features = !!params['editorialFeatures']
 
-        if space_id.nil? || space_id.empty?
-          errors[:spaceId] ||= []
-          errors[:spaceId] << I18n.translate('fieldIsRequiredLabel', locale.code)
-        end
-
-        if delivery_token.nil? || delivery_token.empty?
-          errors[:deliveryToken] ||= []
-          errors[:deliveryToken] << I18n.translate('fieldIsRequiredLabel', locale.code)
-        end
-
-        if preview_token.nil? || preview_token.empty?
-          errors[:previewToken] ||= []
-          errors[:previewToken] << I18n.translate('fieldIsRequiredLabel', locale.code)
-        end
-
-        if errors.empty?
-          validate_space_token_combination(errors, space_id, delivery_token)
-          validate_space_token_combination(errors, space_id, preview_token, true)
-        end
+        errors = check_errors(space_id, delivery_token, preview_token)
 
         if errors.empty?
           session[:space_id] = space_id
@@ -52,7 +42,7 @@ module Routes
           session[:editorial_features] = editorial_features
         end
 
-        space = contentful.space(api_id)
+        space = errors.empty? ? contentful.space(api_id) : nil
         status errors.empty? ? 201 : 409
         render_with_globals :settings, locals: {
           title: I18n.translate('settingsLabel', locale.code),
@@ -84,28 +74,6 @@ module Routes
           is_using_custom_credentials: custom_credentials?,
           host: request.host_with_port
         }
-      end
-    end
-
-    # Helper for checking space/token combinations
-    def validate_space_token_combination(errors, space_id, access_token, is_preview = false)
-      Services::Contentful.create_client(space_id, access_token, is_preview, ENV['CONTENTFUL_HOST'])
-    rescue ::Contentful::Error => e
-      token_field = is_preview ? :previewToken : :deliveryToken
-
-      case e.response.raw.code
-      when 401
-        error_label = is_preview ? 'previewKeyInvalidLabel' : 'deliveryKeyInvalidLabel'
-
-        errors[token_field] ||= []
-        errors[token_field] << I18n.translate(error_label, locale.code)
-      when 404
-        message = I18n.translate('spaceOrTokenInvalid', locale.code)
-        errors[:spaceId] ||= []
-        errors[:spaceId] << message unless errors[:spaceId].include?(message)
-      else
-        errors[token_field] ||= []
-        errors[token_field] << "#{I18n.translate('somethingWentWrongLabel', locale.code)}: #{e.message}"
       end
     end
   end
