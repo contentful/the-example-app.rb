@@ -4,16 +4,22 @@ module Routes
   class Settings < Base
     get '/settings' do
       wrap_errors do
+        current_space_id = space_id()
+        current_delivery_token = delivery_token()
+        current_preview_token = preview_token()
+
         # By default this should be empty, but if redirected to /settings
         # when wrong credentials where entered in the query string, this check is
         # required in order to get the proper error messages in the inputs.
         errors = check_errors(
-          session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
-          session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN'],
-          session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
+          current_space_id,
+          current_delivery_token,
+          current_preview_token
         )
 
-        space = errors.empty? ? contentful.space(api_id) : nil
+        restore_session_to_last_valid_values unless errors.empty?
+
+        space = contentful.space(api_id)
         render_with_globals :settings, locals: {
           title: I18n.translate('settingsLabel', locale.code),
           errors: errors,
@@ -21,6 +27,9 @@ module Routes
           success: false,
           space: space,
           is_using_custom_credentials: custom_credentials?,
+          space_id: current_space_id,
+          delivery_token: current_delivery_token,
+          preview_token: current_preview_token,
           host: request.host_with_port
         }
       end
@@ -75,6 +84,12 @@ module Routes
           host: request.host_with_port
         }
       end
+    end
+
+    def restore_session_to_last_valid_values
+      session[:space_id] = session[:last_valid_space_id] || ENV['CONTENTFUL_SPACE_ID']
+      session[:delivery_token] = session[:last_valid_delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN']
+      session[:preview_token] = session[:last_valid_preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
     end
   end
 end
