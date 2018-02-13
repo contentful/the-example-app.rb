@@ -24,20 +24,24 @@ module Routes
 
     # If configuration is sent on the parameters, save it in the session
     before do
+      session[:editorial_features] = params.delete('editorial_features') == 'enabled'
+
       if changes_credentials? && !session[:has_errors]
+        errors = check_errors(
+          params['space_id'] || ENV['CONTENTFUL_SPACE_ID'],
+          params['delivery_token'] || ENV['CONTENTFUL_DELIVERY_TOKEN'],
+          params['preview_token'] || ENV['CONTENTFUL_PREVIEW_TOKEN']
+        )
+
+        session[:has_errors] = !errors.empty?
+        unless errors.empty?
+          session[:last_valid_space_id] = space_id
+          session[:last_valid_delivery_token] = delivery_token
+          session[:last_valid_preview_token] = preview_token
+        end
+
         %w(space_id delivery_token preview_token).each do |key|
           session[key.to_sym] = params.delete(key) if params.key?(key)
-        end
-        session[:editorial_features] = params['editorial_features'] == 'enabled' if params.key?('editorial_features')
-
-        if custom_credentials?
-          errors = check_errors(
-            session[:space_id],
-            session[:delivery_token],
-            session[:preview_token]
-          )
-
-          session[:has_errors] = !errors.empty?
         end
       end
     end
@@ -45,11 +49,26 @@ module Routes
     # Wrapper for the Contentful service
     def contentful
       Services::Contentful.instance(
-        session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
-        session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN'],
-        session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN'],
+        space_id,
+        delivery_token,
+        preview_token,
         ENV['CONTENTFUL_HOST']
       )
+    end
+
+    # Gets the current space ID
+    def space_id
+      session[:space_id] || ENV['CONTENTFUL_SPACE_ID']
+    end
+
+    # Gets the current delivery token
+    def delivery_token
+      session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN']
+    end
+
+    # Gets the current preview token
+    def preview_token
+      session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
     end
 
     # Gets the selected API
@@ -110,9 +129,9 @@ module Routes
           query_string: query_string.empty? ? '' : "?#{query_string}",
           breadcrumbs: raw_breadcrumbs,
           editorial_features: session[:editorial_features],
-          space_id: session[:space_id] || ENV['CONTENTFUL_SPACE_ID'],
-          delivery_token: session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN'],
-          preview_token: session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
+          space_id: space_id,
+          delivery_token: delivery_token,
+          preview_token: preview_token
         }
 
         slim template, locals: globals.merge(locals)
@@ -124,44 +143,14 @@ module Routes
         "#{title.capitalize} - #{I18n.translate('defaultTitle', locale)}"
       end
 
-
-      # Checks if user is using session or environment credentials
-      def custom_credentials?
-        session_space_id = session[:space_id]
-        session_delivery_token = session[:delivery_token]
-        session_preview_token = session[:preview_token]
-
-        (!session_space_id.nil? &&
-          session_space_id != ENV['CONTENTFUL_SPACE_ID']) ||
-          (!session_delivery_token.nil? &&
-          session_delivery_token != ENV['CONTENTFUL_DELIVERY_TOKEN']) ||
-          (!session_preview_token.nil? &&
-          session_preview_token != ENV['CONTENTFUL_PREVIEW_TOKEN'])
-      end
-
-      # Check if user is defining different credentials than currently stored ones
-      def changes_credentials?
-        current_space_id = session[:space_id] || ENV['CONTENTFUL_SPACE_ID']
-        current_delivery_token = session[:delivery_token] || ENV['CONTENTFUL_DELIVERY_TOKEN']
-        current_preview_token = session[:preview_token] || ENV['CONTENTFUL_PREVIEW_TOKEN']
-
-        attempted_space_id = params['space_id']
-        attempted_delivery_token = params['delivery_token']
-        attempted_preview_token = params['preview_token']
-
-        (!attempted_space_id.nil? && current_space_id != attempted_space_id) ||
-          (!attempted_delivery_token.nil? && current_delivery_token != attempted_delivery_token) ||
-          (!attempted_preview_token.nil? && current_preview_token != attempted_preview_token)
-      end
-
       # Helper for parameterized url
       def parameterized_url
         return "" unless custom_credentials?
 
         query = {
-          space_id: session[:space_id],
-          delivery_token: session[:delivery_token],
-          preview_token: session[:preview_token],
+          space_id: space_id,
+          delivery_token: delivery_token,
+          preview_token: preview_token,
           api_id: api_id
         }.collect { |key, value| "#{key}=#{value}"}.join("&")
 
@@ -169,6 +158,35 @@ module Routes
 
         "?#{query}#{editorial_features_query}"
       end
+    end
+
+    # Checks if user is using session or environment credentials
+    def custom_credentials?
+      session_space_id = space_id
+      session_delivery_token = delivery_token
+      session_preview_token = preview_token
+
+      (!session_space_id.nil? &&
+        session_space_id != ENV['CONTENTFUL_SPACE_ID']) ||
+        (!session_delivery_token.nil? &&
+        session_delivery_token != ENV['CONTENTFUL_DELIVERY_TOKEN']) ||
+        (!session_preview_token.nil? &&
+        session_preview_token != ENV['CONTENTFUL_PREVIEW_TOKEN'])
+    end
+
+    # Check if user is defining different credentials than currently stored ones
+    def changes_credentials?
+      current_space_id = space_id
+      current_delivery_token = delivery_token
+      current_preview_token = preview_token
+
+      attempted_space_id = params['space_id']
+      attempted_delivery_token = params['delivery_token']
+      attempted_preview_token = params['preview_token']
+
+      (!attempted_space_id.nil? && current_space_id != attempted_space_id) ||
+        (!attempted_delivery_token.nil? && current_delivery_token != attempted_delivery_token) ||
+        (!attempted_preview_token.nil? && current_preview_token != attempted_preview_token)
     end
 
     # Helper for checking all errors
