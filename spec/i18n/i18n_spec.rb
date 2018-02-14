@@ -25,8 +25,8 @@ describe I18n do
     end
 
     describe '::translate' do
-      it 'returns an error string when locale file is not found' do
-        expect(subject.translate('coursesLabel', 'unknown-Locale')).to eq 'Localization file for unknown-Locale is not available'
+      it 'returns default en-US locale if file is not found for an unknown locale' do
+        expect(subject.translate('coursesLabel', 'unknown-Locale')).to eq 'Courses'
       end
 
       it 'returns an error string when symbol is not found for locale' do
