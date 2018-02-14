@@ -1,6 +1,8 @@
 require 'json'
 
 module I18n
+  FALLBACK_LOCALE_CODE = 'en-US'.freeze
+
   @translations = nil
 
   # Initializes translation dictionary with contents from /i18n/locales
@@ -34,7 +36,7 @@ module I18n
   # @return [String]
   def self.translate(symbol, locale = 'en-US')
     locale_dict = @translations[locale]
-    return "Localization file for #{locale} is not available" unless locale_dict
+    locale_dict = @translations[FALLBACK_LOCALE_CODE] unless locale_dict
 
     translated_value = locale_dict[symbol]
     return "Translation not found for #{symbol} in #{locale}" unless translated_value
