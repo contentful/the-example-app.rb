@@ -26,7 +26,7 @@ module Routes
       wrap_errors do
         categories = contentful.categories(api_id, locale.code)
         active_category = categories.detect { |category| category.slug == category_slug }
-        return not_found_error if active_category.nil?
+        return not_found_error(I18n.translate('errorMessage404Category', locale.code)) if active_category.nil?
 
         courses = contentful.courses_by_category(active_category.id, api_id, locale.code)
 
@@ -44,7 +44,7 @@ module Routes
     get '/courses/:slug' do |slug|
       wrap_errors do
         course = contentful.course(slug, api_id, locale.code)
-        return not_found_error if course.nil?
+        return not_found_error(I18n.translate('errorMessage404Course', locale.code)) if course.nil?
 
         lessons = course.lessons
 
@@ -73,11 +73,11 @@ module Routes
     get '/courses/:course_slug/lessons/:lesson_slug' do |course_slug, lesson_slug|
       wrap_errors do
         course = contentful.course(course_slug, api_id, locale.code)
-        return not_found_error if course.nil?
+        return not_found_error(I18n.translate('errorMessage404Course', locale.code)) if course.nil?
 
         lessons = course.lessons
         lesson = lessons.detect { |lesson| lesson.slug == lesson_slug }
-        return not_found_error if lesson.nil?
+        return not_found_error(I18n.translate('errorMessage404Lesson', locale.code)) if lesson.nil?
 
         visited_lessons = session[:visited_lessons] || []
         visited_lessons << lesson.id unless visited_lessons.include?(lesson.id)

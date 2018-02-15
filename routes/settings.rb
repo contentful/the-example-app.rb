@@ -26,7 +26,6 @@ module Routes
           has_errors: !errors.empty?,
           success: false,
           space: space,
-          is_using_custom_credentials: custom_credentials?,
           space_id: current_space_id,
           delivery_token: current_delivery_token,
           preview_token: current_preview_token,
@@ -59,7 +58,6 @@ module Routes
           has_errors: !errors.empty?,
           success: errors.empty?,
           space: space,
-          is_using_custom_credentials: custom_credentials?,
           host: request.host_with_port
         }
       end
@@ -80,7 +78,6 @@ module Routes
           has_errors: false,
           success: true,
           space: space,
-          is_using_custom_credentials: custom_credentials?,
           host: request.host_with_port
         }
       end

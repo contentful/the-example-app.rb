@@ -93,6 +93,7 @@ module Routes
     # Gets the selected locale
     def locale
       @locale ||= locales.detect { |locale| locale.code == (params['locale'] || DEFAULT_LOCALE_CODE) }
+      return @locale.nil? ? DEFAULT_LOCALE : @locale
     rescue
       DEFAULT_LOCALE
     end
@@ -129,6 +130,7 @@ module Routes
           query_string: query_string.empty? ? '' : "?#{query_string}",
           breadcrumbs: raw_breadcrumbs,
           editorial_features: session[:editorial_features],
+          is_using_custom_credentials: custom_credentials?,
           space_id: space_id,
           delivery_token: delivery_token,
           preview_token: preview_token

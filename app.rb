@@ -14,7 +14,7 @@ require './routes/settings'
 # Helpers
 require './i18n/i18n'
 
-class ExampleApp < Sinatra::Base
+class ExampleApp < Routes::Base
   TWO_DAYS_IN_SECONDS = 172_800
   DEFAULT_PORT = 3_000
 
@@ -44,4 +44,13 @@ class ExampleApp < Sinatra::Base
   use Routes::Courses
   use Routes::Imprint
   use Routes::Settings
+
+  # Generic error handlers
+  not_found do
+    not_found_error(nil, false)
+  end
+
+  error 500 do
+    generic_error(env['sinatra.error'])
+  end
 end

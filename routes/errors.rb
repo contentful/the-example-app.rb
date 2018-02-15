@@ -16,11 +16,12 @@ module Routes
     end
 
     # Helper for displaying 404 when no entries are found
-    def not_found_error(error_message = nil)
-      err = env['sinatra.error'] || error_message
+    def not_found_error(error_message = nil, contentful_resource=true)
+      err = error_message || env['sinatra.error']
       status 404
       render_with_globals :error, locals: {
         error: err,
+        contentful_resource: contentful_resource,
         stacktrace: caller.join("\n"),
         status: 404,
         environment: ENV['APP_ENV']
@@ -33,6 +34,7 @@ module Routes
       status status_code
       render_with_globals :error, locals: {
         error: error,
+        contentful_resource: true,
         stacktrace: error.backtrace.join("\n"),
         status: status_code,
         environment: ENV['APP_ENV']
@@ -44,6 +46,7 @@ module Routes
       status 500
       render_with_globals :error, locals: {
         error: error,
+        contentful_resource: false,
         stacktrace: caller.join("\n"),
         status: 500,
         environment: ENV['APP_ENV']

@@ -1,28 +1,44 @@
 .layout-centered
-  == render_with_globals :_breadcrumb
   .error
     h1 #{I18n.translate('somethingWentWrongLabel', current_locale.code)} (#{status})
-    h2 #{I18n.translate('tryLabel', current_locale.code)}:
+    - if status == 404
+      - if contentful_resource
+        p #{error}
+      - else
+        p #{I18n.translate('errorMessage404Route', current_locale.code)}
+    - else
+      - if error.respond_to?(:message)
+        p #{error.message}
+    h2 #{I18n.translate('hintsLabel', current_locale.code)}
     ul
       - case status
         - when 400
-            li #{I18n.translate('contentModelChangedErrorLabel', current_locale.code)}
-            li #{I18n.translate('localeContentErrorLabel', current_locale.code)}
+            li #{I18n.translate('contentModelChangedErrorHint', current_locale.code)}
+            li #{I18n.translate('localeContentErrorHint', current_locale.code)}
         - when 401
-            li #{I18n.translate('verifyCredentialsErrorLabel', current_locale.code)}
+            li #{I18n.translate('verifyCredentialsErrorHint', current_locale.code)}
         - when 404
-            li #{I18n.translate('error404Route', current_locale.code)}
-            li #{I18n.translate('draftOrPublishedErrorLabel', current_locale.code)}
+            li #{I18n.translate('notFoundErrorHint', current_locale.code)}
+            li #{I18n.translate('draftOrPublishedErrorHint', current_locale.code)}
+        - else
+            li #{I18n.translate('contentModelChangedErrorHint', current_locale.code)}
+            li #{I18n.translate('draftOrPublishedErrorHint', current_locale.code)}
+            li #{I18n.translate('localeContentErrorHint', current_locale.code)}
       - if environment != 'production' && stacktrace
-        li #{I18n.translate('stackTraceErrorLabel', current_locale.code)}
+        li #{I18n.translate('stackTraceErrorHint', current_locale.code)}
+    - if is_using_custom_credentials
+      form.form(action="/settings/reset#{query_string}" method="post")
+        p
+          button(type="submit")= I18n.translate("resetCredentialsLabel", current_locale.code)
     - if environment != 'production'
-      - if error.respond_to?(:response) || error.respond_to?(:message)
-        h2 #{I18n.translate('errorLabel', current_locale.code)}
-        pre.error__stack-trace
-          - if error.respond_to?(:message)
-              code.shell #{error.message}
-          - if error.respond_to?(:response)
-              code.shell #{JSON.pretty_generate(error.response.load_json)}
+      - if contentful_resource
+        - if error.respond_to?(:response) || error.respond_to?(:message)
+          h2 #{I18n.translate('errorLabel', current_locale.code)}
+          pre.error__stack-trace
+            - if error.respond_to?(:message)
+                code.shell #{error.message}
+            - if error.respond_to?(:response)
+                code.shell #{JSON.pretty_generate(error.response.load_json)}
       - if stacktrace
         h2 #{I18n.translate('stackTraceLabel', current_locale.code)}
         pre.error__stack-trace
