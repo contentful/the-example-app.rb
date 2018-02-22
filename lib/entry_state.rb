@@ -15,7 +15,7 @@ module EntryState
     delivery_entry = published_entry(entry)
 
     draft_value = known_resources_for(entry, delivery_entry).any? do |(_preview_resource, delivery_resource)|
-      delivery_resource.nil?
+      delivery_resource.nil? || !['Entry', 'Asset'].include?(delivery_resource.type)
     end
     entry.define_singleton_method(:draft) do
       draft_value
