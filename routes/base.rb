@@ -7,10 +7,19 @@ require './routes/errors'
 # Base class for route middleware
 module Routes
   class Base < Sinatra::Base
+    TWO_DAYS_IN_SECONDS = 172_800
+
     include Errors
     include EntryState
 
     enable :sessions
+    set :session_secret, ENV['SESSION_SECRET']
+    # Enable Sinatra session after SslEnforcer
+    use Rack::Session::Cookie,
+        key: 'rack.session',
+        path: '/',
+        expire_after: TWO_DAYS_IN_SECONDS,
+        secret: settings.session_secret
 
     set :views, File.join(Dir.pwd, 'views')
 
@@ -39,10 +48,10 @@ module Routes
           session[:last_valid_delivery_token] = delivery_token
           session[:last_valid_preview_token] = preview_token
         end
+      end
 
-        %w(space_id delivery_token preview_token).each do |key|
-          session[key.to_sym] = params.delete(key) if params.key?(key)
-        end
+      %w(space_id delivery_token preview_token).each do |key|
+        session[key.to_sym] = params[key] if params.key?(key)
       end
     end
 
