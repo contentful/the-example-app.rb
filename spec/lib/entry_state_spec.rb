@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 class MockEntry
-  attr_reader :id, :updated_at, :published_at
+  attr_reader :id, :updated_at, :published_at, :type
 
-  def initialize(id, published_at, updated_at, fields = {})
+  def initialize(id, published_at, updated_at, fields = {}, type = 'Entry')
     @id = id
     @published_at = published_at
     @updated_at = updated_at
     @fields = fields
+    @type = type
   end
 
   def fields
