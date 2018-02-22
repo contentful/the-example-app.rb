@@ -11,7 +11,7 @@ GEM
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
     coderay (1.1.2)
-    commonmarker (0.17.7.1)
+    commonmarker (0.17.8)
       ruby-enum (~> 0.5)
     concurrent-ruby (1.0.5)
     contentful (2.4.0)
@@ -61,7 +61,7 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     multi_json (1.13.1)
-    mustermann (1.0.1)
+    mustermann (1.0.2)
     nenv (0.3.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
@@ -76,7 +76,7 @@ GEM
       slop (~> 3.0)
     public_suffix (3.0.2)
     rack (2.0.4)
-    rack-protection (2.0.0)
+    rack-protection (2.0.1)
       rack
     rack-ssl-enforcer (0.2.9)
     rack-test (0.8.2)
@@ -109,10 +109,10 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sinatra (2.0.0)
+    sinatra (2.0.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
-      rack-protection (= 2.0.0)
+      rack-protection (= 2.0.1)
       tilt (~> 2.0)
     slim (3.0.9)
       temple (>= 0.7.6, < 0.9)
@@ -146,7 +146,7 @@ DEPENDENCIES
   rerun
   rspec
   simplecov
-  sinatra
+  sinatra (~> 2.0.1)
   slim
 
 RUBY VERSION
