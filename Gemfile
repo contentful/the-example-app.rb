@@ -21,7 +21,7 @@ gem 'commonmarker'
 gem 'dotenv'
 
 # Contentful Delivery SDK
-gem 'contentful'
+gem 'contentful', '~> 2.5.0'
 
 # Rake tasks
 gem 'rake'
