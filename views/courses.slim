@@ -26,6 +26,9 @@
                 use(xlink:href='/icons/icons.svg#info')
                 .editorial-features__hint-message= I18n.translate('editorialFeaturesHint', current_locale.code)
       .grid-list
-        - courses.each do |course|
-          .grid-list__item
-            == render_with_globals :_course_card, locals: {course: course}
+        - if courses.empty?
+          == render_with_globals :_emptyModule
+        - else
+          - courses.each do |course|
+            .grid-list__item
+              == render_with_globals :_course_card, locals: {course: course}

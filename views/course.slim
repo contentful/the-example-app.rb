@@ -32,7 +32,8 @@
               svg.course__overview-icon
                 use(xlink:href='/icons/icons.svg#skill-level')
               .course__overview-value #{I18n.translate('skillLevelLabel', current_locale.code)}: #{I18n.translate("#{course.skill_level}Label", current_locale.code)}
-          .course__overview-cta-wrapper
-            a.course__overview-cta.cta(href="/courses/#{course.slug}/lessons/#{course.lessons[0].slug}#{query_string}") #{I18n.translate('startCourseLabel', current_locale.code)}
+          - if next_lesson
+            .course__overview-cta-wrapper
+              a.course__overview-cta.cta(href="/courses/#{course.slug}/lessons/#{next_lesson&.slug}#{query_string}") #{I18n.translate('startCourseLabel', current_locale.code)}
         .course__description
           == CommonMarker.render_html(course.description)

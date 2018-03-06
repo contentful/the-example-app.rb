@@ -2,19 +2,22 @@
   h1.lesson__title #{lesson.title}
   == render_with_globals :_editorialFeatures, locals: { entry: lesson }
   .lesson__modules
-    - lesson.modules.each do |mod|
-      - if mod.content_type
-        - case mod.content_type.id
-          - when 'lessonCodeSnippets'
-            == render_with_globals :_lessonModuleCodeSnippet, locals: { mod: mod }
-          - when 'lessonCopy'
-            == render_with_globals :_lessonModuleCopy, locals: { mod: mod }
-          - when 'lessonImage'
-            == render_with_globals :_lessonModuleImage, locals: { mod: mod }
-      - else
-        h2 ️️#{I18n.translate('lessonModuleErrorTitle', current_locale.code)}
-        p
-          span #{I18n.translate('lessonModuleErrorBody', current_locale.code)}
-          strong  #{mod.sys.id}
+    - if !lesson.respond_to?(:modules) || lesson.modules.empty?
+      == render_with_globals :_emptyModule
+    - else
+      - lesson.modules.each do |mod|
+        - if mod.content_type
+          - case mod.content_type.id
+            - when 'lessonCodeSnippets'
+              == render_with_globals :_lessonModuleCodeSnippet, locals: { mod: mod }
+            - when 'lessonCopy'
+              == render_with_globals :_lessonModuleCopy, locals: { mod: mod }
+            - when 'lessonImage'
+              == render_with_globals :_lessonModuleImage, locals: { mod: mod }
+        - else
+          h2 ️️#{I18n.translate('lessonModuleErrorTitle', current_locale.code)}
+          p
+            span #{I18n.translate('lessonModuleErrorBody', current_locale.code)}
+            strong  #{mod.sys.id}
   - if next_lesson
     a.lesson__cta.cta(href="/courses/#{course.slug}/lessons/#{next_lesson.slug}#{query_string}") #{I18n.translate('nextLessonLabel', current_locale.code)}

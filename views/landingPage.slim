@@ -4,12 +4,15 @@
 .layout-centered
   == render_with_globals :_editorialFeatures, locals: { entry: landing_page }
 .modules-container
-  - landing_page.content_modules.each do |mod|
-    - if mod.respond_to?(:content_type)
-      - case mod.content_type.id
-        - when 'layoutCopy'
-          == render_with_globals :_moduleCopy, locals: { mod: mod }
-        - when 'layoutHeroImage'
-          == render_with_globals :_moduleHeroImage, locals: { mod: mod }
-        - when 'layoutHighlightedCourse'
-          == render_with_globals :_moduleHighlightedCourse, locals: { mod: mod, course: mod.course }
+  - if !landing_page.respond_to?(:content_modules) || landing_page.content_modules.empty?
+    == render_with_globals :_emptyModule
+  - else
+    - landing_page.content_modules.each do |mod|
+      - if mod.respond_to?(:content_type)
+        - case mod.content_type.id
+          - when 'layoutCopy'
+            == render_with_globals :_moduleCopy, locals: { mod: mod }
+          - when 'layoutHeroImage'
+            == render_with_globals :_moduleHeroImage, locals: { mod: mod }
+          - when 'layoutHighlightedCourse'
+            == render_with_globals :_moduleHighlightedCourse, locals: { mod: mod, course: mod.course }

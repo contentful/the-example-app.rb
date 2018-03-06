@@ -46,7 +46,7 @@ module Routes
         course = contentful.course(slug, api_id, locale.code)
         return not_found_error(I18n.translate('errorMessage404Course', locale.code)) if course.nil?
 
-        lessons = course.lessons
+        lessons = course.respond_to?(:lessons) ? course.lessons : []
 
         visited_lessons = session[:visited_lessons] || []
         visited_lessons << course.id unless visited_lessons.include?(course.id)
