@@ -87,7 +87,7 @@ module Routes
 
     # Gets the current API data
     def current_api
-      {
+      api_data = {
         cda: {
           label: I18n.translate('contentDeliveryApiLabel', locale.code),
           id: 'cda'
@@ -96,7 +96,9 @@ module Routes
           label: I18n.translate('contentPreviewApiLabel', locale.code),
           id: 'cpa'
         }
-      }[api_id.to_sym]
+      }
+
+      api_data.key?(api_id.to_sym) ? api_data[api_id.to_sym] : api_data[DEFAULT_API.to_sym]
     end
 
     # Gets the selected locale

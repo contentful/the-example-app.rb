@@ -57,7 +57,7 @@ module Services
     #
     # @return [::Contentful::Client]
     def client(api_id)
-      api_id == 'cda' ? @delivery_client : @preview_client
+      api_id == 'cpa' ? @preview_client : @delivery_client
     end
 
     # Returns the current space
