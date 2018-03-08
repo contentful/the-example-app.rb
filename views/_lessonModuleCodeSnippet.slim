@@ -1,58 +1,58 @@
 .lesson-module.lesson-module-code
   .lesson-module-code__header
     - if mod.curl
-      a.lesson-module-code__trigger(data-target="#{mod.id}-curl") cURL
+      a.lesson-module-code__trigger(data-target="curl") cURL
     - if mod.dot_net
-      a.lesson-module-code__trigger(data-target="#{mod.id}-dotnet") .NET
+      a.lesson-module-code__trigger(data-target="dotnet") .NET
     - if mod.javascript
-      a.lesson-module-code__trigger(data-target="#{mod.id}-javascript") JavaScript
+      a.lesson-module-code__trigger(data-target="javascript") JavaScript
     - if mod.java
-      a.lesson-module-code__trigger(data-target="#{mod.id}-java") Java
+      a.lesson-module-code__trigger(data-target="java") Java
     - if mod.java_android
-      a.lesson-module-code__trigger(data-target="#{mod.id}-android") Android
+      a.lesson-module-code__trigger(data-target="android") Android
     - if mod.php
-      a.lesson-module-code__trigger(data-target="#{mod.id}-php") PHP
+      a.lesson-module-code__trigger(data-target="php") PHP
     - if mod.python
-      a.lesson-module-code__trigger(data-target="#{mod.id}-python") Python
+      a.lesson-module-code__trigger(data-target="python") Python
     - if mod.ruby
-      a.lesson-module-code__trigger.lesson-module-code__trigger--active(data-target="#{mod.id}-ruby") Ruby
+      a.lesson-module-code__trigger.lesson-module-code__trigger--active(data-target="ruby") Ruby
     - if mod.swift
-      a.lesson-module-code__trigger(data-target="#{mod.id}-swift") Swift
+      a.lesson-module-code__trigger(data-target="swift") Swift
 
   .lesson-module-code__code-area
     - if mod.curl
-      .lesson-module-code__code(id="#{mod.id}-curl")
+      .lesson-module-code__code(id="curl")
         pre
           code.shell= mod.curl
     - if mod.dot_net
-      .lesson-module-code__code(id="#{mod.id}-dotnet")
+      .lesson-module-code__code(id="dotnet")
         pre
           code.csharp= mod.dot_net
     - if mod.javascript
-      .lesson-module-code__code(id="#{mod.id}-javascript")
+      .lesson-module-code__code(id="javascript")
         pre
           code.javascript= mod.javascript
     - if mod.java
-      .lesson-module-code__code(id="#{mod.id}-java")
+      .lesson-module-code__code(id="java")
         pre
           code.java= mod.java
     - if mod.java_android
-      .lesson-module-code__code(id="#{mod.id}-android")
+      .lesson-module-code__code(id="android")
         pre
           code.java= mod.java_android
     - if mod.php
-      .lesson-module-code__code(id="#{mod.id}-php")
+      .lesson-module-code__code(id="php")
         pre
           code.php= mod.php
     - if mod.python
-      .lesson-module-code__code(id="#{mod.id}-python")
+      .lesson-module-code__code(id="python")
         pre
           code.python= mod.python
     - if mod.ruby
-      .lesson-module-code__code.lesson-module-code__code--active(id="#{mod.id}-ruby")
+      .lesson-module-code__code.lesson-module-code__code--active(id="ruby")
         pre
           code.ruby= mod.ruby
     - if mod.swift
-      .lesson-module-code__code(id="#{mod.id}-swift")
+      .lesson-module-code__code(id="swift")
         pre
           code.swift= mod.swift

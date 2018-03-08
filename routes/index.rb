@@ -10,6 +10,7 @@ module Routes
         attach_entry_state(landing_page) if attach_entry_state?
 
         render_with_globals :landingPage, locals: {
+          title: 'Home',
           landing_page: landing_page,
           breadcrumbs: Breadcrumbs.refine(raw_breadcrumbs, landing_page)
         }

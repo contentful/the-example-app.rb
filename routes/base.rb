@@ -153,7 +153,7 @@ module Routes
       # Helper for titles
       def format_meta_title(title, locale)
         return I18n.translate('defaultTitle', locale) unless title
-        "#{title.capitalize} - #{I18n.translate('defaultTitle', locale)}"
+        "#{title.capitalize} — #{I18n.translate('defaultTitle', locale)}"
       end
 
       # Helper for parameterized url
