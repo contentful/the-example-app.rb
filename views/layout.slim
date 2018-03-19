@@ -126,71 +126,71 @@ html
                   a(href='https://github.com/contentful' target='_blank' rel='noopener')
                     svg
                       use(xlink:href='/icons/icons.svg#github')
-      section.modal#about-this-modal
-        .modal__overlay.close
-        .modal__wrapper
-          h1.modal__title= I18n.translate("modalTitleRuby", current_locale.code)
-          .modal__content
-            p
-              | #{I18n.translate("modalIntroRuby", current_locale.code)}&nbsp;
-              a(href="https://github.com/contentful/the-example-app.rb" target="_blank" rel="noopener") Github
-              | .
-            p
-              | #{I18n.translate("modalSpaceIntro", current_locale.code)}&nbsp;
-              a(href="https://github.com/contentful/content-models/blob/master/the-example-app/README.md " target="_blank" rel="noopener") #{I18n.translate("modalSpaceLinkLabel", current_locale.code)}
-              | .
-            p= I18n.translate("modalPlatforms", current_locale.code)
-            ul
-              li
-                img(src='/images/icon-nodejs.svg')
-                br
-                a(href="https://the-example-app-nodejs.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
-                br
-                a(href="https://github.com/contentful/the-example-app.nodejs" rel="noopener" target="_blank") GitHub
-              li
-                img(src='/images/icon-dotnet.svg')
-                br
-                a(href="https://the-example-app-csharp.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
-                br
-                a(href="https://github.com/contentful/the-example-app.csharp" rel="noopener" target="_blank") GitHub
-              li
-                img(src='/images/icon-ruby.svg')
-                br
-                a(href="https://the-example-app-rb.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
-                br
-                a(href="https://github.com/contentful/the-example-app.rb" rel="noopener" target="_blank") GitHub
-              li
-                img(src='/images/icon-php.svg')
-                br
-                a(href="https://the-example-app-php.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
-                br
-                a(href="https://github.com/contentful/the-example-app.php" rel="noopener" target="_blank") GitHub
-              li
-                img(src='/images/icon-python.svg')
-                br
-                a(href="https://the-example-app-py.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
-                br
-                a(href="https://github.com/contentful/the-example-app.py" rel="noopener" target="_blank") GitHub
-              li
-                img.inactive(src='/images/icon-swift.svg')
-                br
-                = I18n.translate("comingSoonLabel", current_locale.code)
-              li
-                img(src='/images/icon-java.svg')
-                br
-                a(href="https://the-example-app-java.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
-                br
-                a(href="https://github.com/contentful/the-example-app.java" rel="noopener" target="_blank") GitHub
-              li
-                img.inactive(src='/images/icon-android.svg')
-                br
-                = I18n.translate("comingSoonLabel", current_locale.code)
-          .modal__cta-wrapper
-            a.modal__cta.close(href="#")= I18n.translate("modalCTALabel", current_locale.code)
-          .modal__close-wrapper
-            a.modal__close-button.close(href="#")
-              svg
-                use(xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/icons/icons.svg#cross")
+    section.modal#about-this-modal
+      .modal__overlay.close
+      .modal__wrapper
+        h1.modal__title= I18n.translate("modalTitleRuby", current_locale.code)
+        .modal__content
+          p
+            | #{I18n.translate("modalIntroRuby", current_locale.code)}&nbsp;
+            a(href="https://github.com/contentful/the-example-app.rb" target="_blank" rel="noopener") Github
+            | .
+          p
+            | #{I18n.translate("modalSpaceIntro", current_locale.code)}&nbsp;
+            a(href="https://github.com/contentful/content-models/blob/master/the-example-app/README.md " target="_blank" rel="noopener") #{I18n.translate("modalSpaceLinkLabel", current_locale.code)}
+            | .
+          p= I18n.translate("modalPlatforms", current_locale.code)
+          ul
+            li
+              img(src='/images/icon-nodejs.svg')
+              br
+              a(href="https://the-example-app-nodejs.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
+              br
+              a(href="https://github.com/contentful/the-example-app.nodejs" rel="noopener" target="_blank") GitHub
+            li
+              img(src='/images/icon-dotnet.svg')
+              br
+              a(href="https://the-example-app-csharp.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
+              br
+              a(href="https://github.com/contentful/the-example-app.csharp" rel="noopener" target="_blank") GitHub
+            li
+              img(src='/images/icon-ruby.svg')
+              br
+              a(href="https://the-example-app-rb.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
+              br
+              a(href="https://github.com/contentful/the-example-app.rb" rel="noopener" target="_blank") GitHub
+            li
+              img(src='/images/icon-php.svg')
+              br
+              a(href="https://the-example-app-php.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
+              br
+              a(href="https://github.com/contentful/the-example-app.php" rel="noopener" target="_blank") GitHub
+            li
+              img(src='/images/icon-python.svg')
+              br
+              a(href="https://the-example-app-py.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
+              br
+              a(href="https://github.com/contentful/the-example-app.py" rel="noopener" target="_blank") GitHub
+            li
+              img.inactive(src='/images/icon-swift.svg')
+              br
+              = I18n.translate("comingSoonLabel", current_locale.code)
+            li
+              img(src='/images/icon-java.svg')
+              br
+              a(href="https://the-example-app-java.contentful.com/#{parameterized_url}" rel="noopener" target="_blank")= I18n.translate("hostedLabel", current_locale.code)
+              br
+              a(href="https://github.com/contentful/the-example-app.java" rel="noopener" target="_blank") GitHub
+            li
+              img.inactive(src='/images/icon-android.svg')
+              br
+              = I18n.translate("comingSoonLabel", current_locale.code)
+        .modal__cta-wrapper
+          a.modal__cta.close(href="#")= I18n.translate("modalCTALabel", current_locale.code)
+        .modal__close-wrapper
+          a.modal__close-button.close(href="#")
+            svg
+              use(xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/icons/icons.svg#cross")
 
     script(src='/scripts/index.js')
 

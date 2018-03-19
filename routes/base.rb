@@ -33,7 +33,7 @@ module Routes
 
     # If configuration is sent on the parameters, save it in the session
     before do
-      session[:editorial_features] = params.delete('editorial_features') == 'enabled'
+      session[:editorial_features] = params['editorial_features'] == 'enabled' if params.key?('editorial_features')
 
       if changes_credentials? && !session[:has_errors]
         errors = check_errors(
@@ -87,7 +87,7 @@ module Routes
 
     # Gets the current API data
     def current_api
-      {
+      api_data = {
         cda: {
           label: I18n.translate('contentDeliveryApiLabel', locale.code),
           id: 'cda'
@@ -96,7 +96,9 @@ module Routes
           label: I18n.translate('contentPreviewApiLabel', locale.code),
           id: 'cpa'
         }
-      }[api_id.to_sym]
+      }
+
+      api_data.key?(api_id.to_sym) ? api_data[api_id.to_sym] : api_data[DEFAULT_API.to_sym]
     end
 
     # Gets the selected locale
@@ -151,7 +153,7 @@ module Routes
       # Helper for titles
       def format_meta_title(title, locale)
         return I18n.translate('defaultTitle', locale) unless title
-        "#{title.capitalize} - #{I18n.translate('defaultTitle', locale)}"
+        "#{title.capitalize} — #{I18n.translate('defaultTitle', locale)}"
       end
 
       # Helper for parameterized url

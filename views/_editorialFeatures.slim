@@ -1,7 +1,6 @@
 - if editorial_features
   .editorial-features
     - if show_entry_state?(entry)
-      .editorial-features__item
         == render_with_globals :_entryState, locals: { entry: entry }
     .editorial-features__item
       a.editorial-features__text(
