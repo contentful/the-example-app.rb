@@ -33,7 +33,7 @@ module Routes
 
     # If configuration is sent on the parameters, save it in the session
     before do
-      session[:editorial_features] = params.delete('editorial_features') == 'enabled'
+      session[:editorial_features] = params['editorial_features'] == 'enabled' if params.key?('editorial_features')
 
       if changes_credentials? && !session[:has_errors]
         errors = check_errors(

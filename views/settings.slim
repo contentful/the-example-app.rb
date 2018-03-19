@@ -29,11 +29,11 @@
             p
               em= I18n.translate("usingServerCredentialsLabel", current_locale.code)
             p
-              strong= I18n.translate("connectedToSpaceLabel", current_locale.code)
+              strong= "#{I18n.translate("connectedToSpaceLabel", current_locale.code)}:"
               br
               = "#{space.name} (#{space_id})"
             p
-              strong= I18n.translate("credentialSourceLabel", current_locale.code)
+              strong= "#{I18n.translate("credentialSourceLabel", current_locale.code)}:"
               br
               = "#{I18n.translate("loadedFromLocalFileLabel", current_locale.code)} "
               a(href="https://github.com/contentful/the-example-app.rb/blob/master/.env" target="_blank" rel="noopener") .env
