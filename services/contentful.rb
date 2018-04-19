@@ -38,6 +38,7 @@ module Services
       options = {
         space: space_id,
         access_token: access_token,
+        environment: 'master',
         dynamic_entries: :auto,
         raise_errors: true,
         application_name: 'the-example-app.rb',
@@ -67,6 +68,15 @@ module Services
     # @return [::Contentful::Space]
     def space(api_id)
       client(api_id).space
+    end
+
+    # Returns the current available locales
+    #
+    # @param api_id [String]
+    #
+    # @return [::Contentful::Array<::Contentful::Locale>]
+    def locales(api_id)
+      client(api_id).locales
     end
 
     # Finds all courses, optionally filters them

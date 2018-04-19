@@ -111,7 +111,7 @@ module Routes
 
     # Gets all the available locales for the given space
     def locales
-      @locales ||= contentful.space(api_id).locales
+      @locales ||= contentful.locales(api_id)
     rescue ::Contentful::Error
       [DEFAULT_LOCALE]
     end
