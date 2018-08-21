@@ -40,6 +40,7 @@ jobs:
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     # This is based on your 1.0 configuration file or project settings
     - run:
+        name: Clone TEA
         working_directory: ~/contentful/the-example-app.rb
         command: rm -f contentful/the-example-app.rb/.rvmrc; echo 2.4.1 > contentful/the-example-app.rb/.ruby-version; rvm use 2.4.1 --default
     - run:
@@ -57,8 +58,14 @@ jobs:
         # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
         - v1-dep-
     # This is based on your 1.0 configuration file or project settings
-    - run: git clone https://github.com/contentful/the-example-app-e2e-tests.git ./spec/e2e
-    - run: cd ./spec/e2e && npm install
+    - run: 
+        name: Clone E2E Tests
+        working_directory: ~/contentful/the-example-app.rb
+        command: git clone https://github.com/contentful/the-example-app-e2e-tests.git ./spec/e2e
+    - run:
+        name: Install E2E Tests dependencies
+        working_directory: ~/contentful/the-example-app.rb
+        command: cd ./spec/e2e && npm install
     - run: gem install foreman
     # The following line was run implicitly in your 1.0 builds based on what CircleCI inferred about the structure of your project. In 2.0 you need to be explicit about which commands should be run. In some cases you can discard inferred commands if they are not relevant to your project.
     - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
@@ -82,16 +89,21 @@ jobs:
     #   This would typically be a build job when using workflows, possibly combined with build
     # The following line was run implicitly in your 1.0 builds based on what CircleCI inferred about the structure of your project. In 2.0 you need to be explicit about which commands should be run. In some cases you can discard inferred commands if they are not relevant to your project.
     - run:
+        name: TEA Unit Tests
         command: bundle exec rspec --color --format documentation --format progress spec
         environment:
           RAILS_ENV: test
           RACK_ENV: test
     # This is based on your 1.0 configuration file or project settings
     - run:
+        name: Setup Server for E2E
         command: foreman start
         background: true
     - run: sleep 5
-    - run: ./spec/e2e/node_modules/.bin/cypress run
+    - run:
+      name: Run E2E Tests
+      working_directory: ~/contentful/the-example-app.rb
+      command: ./spec/e2e/node_modules/.bin/cypress run
     - run: tar -czf $CIRCLE_ARTIFACTS/cypress-result_`date +%Y-%m-%d_%H-%M-%S`.tar.gz ./cypress
     # Teardown
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
