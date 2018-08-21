@@ -101,9 +101,9 @@ jobs:
         background: true
     - run: sleep 5
     - run:
-      name: Run E2E Tests
-      working_directory: ~/contentful/the-example-app.rb
-      command: ./spec/e2e/node_modules/.bin/cypress run
+        name: Run E2E Tests
+        working_directory: ~/contentful/the-example-app.rb
+        command: ./spec/e2e/node_modules/.bin/cypress run
     - run: tar -czf $CIRCLE_ARTIFACTS/cypress-result_`date +%Y-%m-%d_%H-%M-%S`.tar.gz ./cypress
     # Teardown
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
