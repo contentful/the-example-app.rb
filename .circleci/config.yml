@@ -58,7 +58,7 @@ jobs:
         # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
         - v1-dep-
     # This is based on your 1.0 configuration file or project settings
-    - run: 
+    - run:
         name: Clone E2E Tests
         working_directory: ~/contentful/the-example-app.rb
         command: git clone https://github.com/contentful/the-example-app-e2e-tests.git ./spec/e2e

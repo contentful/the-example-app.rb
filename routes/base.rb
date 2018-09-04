@@ -7,7 +7,7 @@ require './routes/errors'
 # Base class for route middleware
 module Routes
   class Base < Sinatra::Base
-    TWO_DAYS_IN_SECONDS = 172_800
+    TWO_DAYS_IN_SECONDS = 172_800.freeze
 
     include Errors
     include EntryState
