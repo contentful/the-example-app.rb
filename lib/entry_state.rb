@@ -65,6 +65,8 @@ module EntryState
   #
   # @return [Contentful::Entry, nil] Entry from the Delivery API or nil.
   def find_matching_resource(preview_resource, delivery_entry, search_field)
+    return nil unless delivery_entry
+
     _field, values = delivery_entry.fields.detect { |k, _v| k == search_field }
     return nil if values.nil?
 
