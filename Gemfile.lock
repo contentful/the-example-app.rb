@@ -75,7 +75,7 @@ GEM
       pry (~> 0.9)
       slop (~> 3.0)
     public_suffix (3.0.2)
-    rack (2.0.4)
+    rack (2.0.8)
     rack-protection (2.0.3)
       rack
     rack-ssl-enforcer (0.2.9)
