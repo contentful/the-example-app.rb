@@ -6,7 +6,7 @@ ruby '2.4.1'
 gem 'foreman'
 
 # Web framework
-gem 'sinatra', '~> 2.0.2'
+gem 'sinatra', '~> 2.2.0'
 
 # SSL enforcer
 gem 'rack-ssl-enforcer'
